@@ -7,6 +7,7 @@ import { Component, h, Prop, Event, EventEmitter, State, Fragment, Watch } from 
 })
 export class ChatScreen {
   @Prop() thread: any;
+  @Prop() isBlankChat: boolean = false;
   @Event() sendMessage: EventEmitter<{ text: string; ts: number }>;
   @State() input = '';
   @State() bubbleInput = '';
@@ -20,15 +21,24 @@ export class ChatScreen {
   @Event() showResult: EventEmitter<boolean>;
   botMessages: any = {};
   private messagesWrap!: HTMLElement;
+  @Watch('isBlankChat')
+  handleBlankChatChange() {
+    if (this.isBlankChat) {
+      this.chatMessages = [this.botMessages.welcome];
+    }
+  }
+
+  //   @Watch('thread')
+  //   handleThreadChange() {
+  //     if (this.thread) {
+  //       this.chatMessages = this.thread.messages || [this.botMessages.welcome];
+  //     }
+  //   }
 
   async componentWillLoad() {
-    // Load JSON
     const res = await fetch('/assets/data.json');
     this.botMessages = await res.json();
-    console.log('res>>', res);
-
-    // Add initial bot message
-    this.chatMessages = [this.botMessages.welcome];
+    this.chatMessages = this.thread.messages || [this.botMessages.welcome];
   }
 
   handleOption(id: string, label: string) {

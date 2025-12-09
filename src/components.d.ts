@@ -19,6 +19,7 @@ export namespace Components {
         "msg": any;
     }
     interface ChatScreen {
+        "isBlankChat": boolean;
         "thread": any;
     }
     interface ChatSidebar {
@@ -164,6 +165,7 @@ declare namespace LocalJSX {
         "onHandleOption"?: (event: ChatMessageCustomEvent<string>) => void;
     }
     interface ChatScreen {
+        "isBlankChat"?: boolean;
         "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number }>) => void;
         "onShowResult"?: (event: ChatScreenCustomEvent<boolean>) => void;
         "thread"?: any;

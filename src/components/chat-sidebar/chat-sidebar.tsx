@@ -18,29 +18,27 @@ export class ChatSidebar {
   formatTimestamp(ts: number): string {
     const now = new Date();
     const date = new Date(ts);
+
     const diffMs = now.getTime() - date.getTime();
     const diffMinutes = diffMs / (1000 * 60);
 
-    // Within 2 minutes → show "now"
+    // 1️⃣ Within 2 minutes → show "now"
     if (diffMinutes <= 2) return 'now';
 
-    // Midnight calculation
+    // Normalize to midnight for day comparison
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    const dayBeforeYesterday = new Date(today);
-    dayBeforeYesterday.setDate(today.getDate() - 2);
+    // 2️⃣ Still today → show "today"
+    if (date >= today) return 'today';
 
-    // Yesterday
+    // 3️⃣ Yesterday → show "yesterday"
     if (date >= yesterday && date < today) return 'yesterday';
 
-    // Day before yesterday
-    if (date >= dayBeforeYesterday && date < yesterday) return 'day before yesterday';
-
-    // Default — show like "4 Dec"
+    // 4️⃣ Anything older → return "4 Dec" format
     return date.toLocaleDateString('en-US', {
       day: 'numeric',
       month: 'short',
@@ -60,14 +58,14 @@ export class ChatSidebar {
         <ul class="thread-list">
           {this.threads?.map(t => (
             <li class={`thread ${t.id === this.active ? 'active' : ''}`} onClick={() => this.select(t.id)}>
-              <div class="title">{t.title}</div>
+              <div class="title">{t.name}</div>
               <div class="meta">{t.ts ? this.formatTimestamp(t.ts) : '12312'}</div>
             </li>
           ))}
         </ul>
 
         <div class="bottom">
-          <button class="new-btn" onClick={() => window.dispatchEvent(new CustomEvent('newThread'))}>
+          <button class="new-btn" onClick={() => this.newThread.emit()}>
             + New Analysis
           </button>
         </div>

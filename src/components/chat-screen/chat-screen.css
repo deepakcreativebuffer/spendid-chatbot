@@ -7,7 +7,6 @@
   background: #f8fbfa;
 }
 
-/* Full canvas background */
 .canvas {
   width: 100%;
   height: 100%;
@@ -17,11 +16,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 20px 0 130px 0; /* space top + bottom */
+  padding: 20px 0 130px 0;
 }
 
-
-/* Center the messages just like the screenshot */
 .messages-wrap {
   flex: 1;
   overflow-y: auto;
@@ -34,11 +31,11 @@
 
 /* Chat bubble wrapper width */
 .messages-wrap chat-message {
-   max-width: 75%; /* or 320px, whatever you prefer */
+  max-width: 75%;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  white-space: pre-wrap; /* allows wrapping & respects line breaks */
-  display: inline-block;            /* matches your screenshot bubble width */
+  white-space: pre-wrap;
+  display: inline-block;
 }
 .bubble p {
   word-break: break-word;
@@ -65,16 +62,14 @@
   padding: 10px 0;
 }
 
-/* Outer container: input + button */
 .composer-box {
   width: 90%;
   max-width: 900px;
   display: flex;
   align-items: center;
-  gap: 15px; /* spacing like screenshot */
+  gap: 15px;
 }
 
-/* Input box styling */
 .composer-box input {
   flex: 1;
   padding: 22px 22px;
@@ -87,7 +82,6 @@
   color: #3c4b61;
 }
 
-/* Send button (perfectly round circle) */
 .send {
   width: 58px;
   height: 58px;
@@ -106,37 +100,31 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-/* Container for each message row */
 .msg-bot,
 .msg-user {
   display: flex;
   margin-bottom: 8px;
 }
 
-/* Bot messages align left */
 .msg-bot {
   justify-content: flex-start;
-  /* align-items: flex-start;   */
   margin-left: 100px;
-    align-items: flex-end; 
+  align-items: flex-end;
 }
 
-/* User messages align right */
 .msg-user {
-  justify-content:flex-end;
-   margin-right: 100px;
-    align-items: flex-end; 
-
+  justify-content: flex-end;
+  margin-right: 100px;
+  align-items: flex-end;
 }
 
-/* Bubble styles */
 .msg-bot .bubble {
   background: #fff;
   color: #0d1b2a;
   padding: 14px 20px;
   border-radius: 15px;
   max-width: 340px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .msg-user .bubble {
@@ -146,7 +134,6 @@
   border-radius: 15px;
   max-width: 240px;
 }
-
 
 .options-row {
   margin-top: 10px;
@@ -161,20 +148,31 @@
   border: none;
   cursor: pointer;
 }
-.avatar-bot{
-  width:40px; height:40px; border-radius:50%; object-fit:cover;
-  box-shadow: 0 6px 24px rgba(16,36,48,0.06);
+.avatar-bot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 24px rgba(16, 36, 48, 0.06);
   margin-right: 10px;
 }
-.avatar-user{
-  width:40px; height:40px; border-radius:50%; object-fit:cover;
-  box-shadow: 0 6px 24px rgba(16,36,48,0.06);
+.avatar-user {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 24px rgba(16, 36, 48, 0.06);
   margin-left: 10px;
 }
-.user-pill{
-  background: linear-gradient(90deg,#48c4a7,#3bb79b);
-  color:#fff; padding:10px; border-radius:20px; font-weight:700; min-width:36px; text-align:center;
-  box-shadow: 0 6px 18px rgba(16,36,48,0.06);
+.user-pill {
+  background: linear-gradient(90deg, #48c4a7, #3bb79b);
+  color: #fff;
+  padding: 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(16, 36, 48, 0.06);
 }
 
 .input-bubble input {
@@ -207,10 +205,10 @@
   font-weight: 500;
   transition: 0.2s ease;
 }
-.input-bubble .option{
-    width: 40%;
-    font-size: 10px;
-    margin-bottom: 5px;
+.input-bubble .option {
+  width: 40%;
+  font-size: 10px;
+  margin-bottom: 5px;
 }
 
 /* Hover effect */
@@ -219,16 +217,14 @@
   transform: translateY(-1px);
 }
 
-.input-label{
-    margin-bottom: 5px;
+.input-label {
+  margin-bottom: 5px;
 }
 
-.result-btn{
+.result-btn {
   margin-top: 10px;
 }
 
-
-/* Full container panel (rounded box) */
 .panel-box {
   width: 100%;
   max-width: 380px;
@@ -239,14 +235,12 @@
   margin-top: 8px;
 }
 
-/* Title */
 .panel-title {
   font-size: 16px;
   font-weight: 600;
   color: #1c2d41;
 }
 
-/* Input field wrappers */
 .panel-field {
   background: #f7f9fc;
   border-radius: 12px;
@@ -257,7 +251,6 @@
   align-items: center;
 }
 
-/* Text inputs */
 .panel-field input {
   border: none;
   background: transparent;
@@ -267,7 +260,6 @@
   color: #1d2b39;
 }
 
-/* Dropdown select */
 .panel-field select {
   border: none;
   background: transparent;
@@ -279,7 +271,6 @@
   cursor: pointer;
 }
 
-/* Dropdown caret */
 .caret {
   position: absolute;
   right: 16px;
@@ -291,7 +282,6 @@
   pointer-events: none;
 }
 
-/* Continue button */
 .panel-button {
   width: 100%;
   padding: 12px 14px;
