@@ -1,0 +1,167 @@
+{
+  "threads": [],
+  "welcome": {
+    "type": "bot",
+    "message": "Hi! I’m the SPENDiD Budget Assistant 👋\n\nI’ll help you understand your spending habits and compare them with people like you.\nBefore we start, do you want to continue?",
+    "options": [
+      { "id": "begin", "label": "Yes, let’s begin" },
+      { "id": "not_now", "label": "Not now" }
+    ],
+    "next": "ask_location"
+  },
+
+  "ask_location": {
+    "type": "bot",
+    "message": "📍 Location\nGreat! First, what's your zip code or Area?"
+  },
+
+  "zip_input": {
+    "type": "bot",
+    "message": "",
+    "placeholder": "Enter Zip Code",
+    "input": true,
+    "inputType": "zip_input",
+    "next": "house_hold"
+  },
+
+  "house_hold": {
+    "type": "bot",
+    "quesType": "household",
+    "message": "How many people live in your household (excluding roommates who pay their own bills)?",
+    "next": "house_hold_age"
+  },
+
+  "house_hold_age": {
+    "type": "bot",
+    "message": "Please enter the age of each household member",
+    "show_with_next": true,
+    "next": "house_hold_input"
+  },
+
+  "house_hold_input": {
+    "type": "bot",
+    "placeholder": "Enter Age",
+    "input": true,
+    "inputType": "house_hold",
+    "next": "income"
+  },
+
+  "income": {
+    "type": "bot",
+    "quesType": "income",
+    "message": "💰 How many sources of income in your household?",
+    "next": "income_source"
+  },
+
+  "income_source": {
+    "type": "bot",
+    "message": "Please enter the income of each household member",
+    "show_with_next": true,
+    "next": "income_source_input"
+  },
+  "income_source_input": {
+    "type": "bot",
+    "placeholder": "Enter Income",
+
+    "input": true,
+    "inputType": "income",
+    "next": "rent"
+  },
+
+  "rent": {
+    "type": "bot",
+    "message": "🏡 Do you rent or own your home?",
+    "options": [
+      { "id": "rent", "label": "Rent" },
+      { "id": "own", "label": "Own" }
+    ],
+    "next": "monthlyRent"
+  },
+
+  "monthlyRent": {
+    "type": "bot",
+    "message": "💵 What is your monthly rent/mortgage payment?",
+    "show_with_next": true,
+    "next": "monthlyRentInput"
+  },
+
+  "monthlyRentInput": {
+    "type": "bot",
+    "placeholder": "Enter Monthly Rent",
+
+    "input": true,
+    "inputType": "rent",
+    "next": "propertyTaxes"
+  },
+  "propertyTaxes": {
+    "type": "bot",
+    "message": "📋 Does this include property taxes and homeowner insurance?",
+    "options": [
+      { "id": "yes", "label": "Yes" },
+      { "id": "no", "label": "No" }
+    ],
+    "next": "vehicleRent"
+  },
+
+  "vehicleRent": {
+    "type": "bot",
+    "message": "🚗 What's your total monthly vehicle payment?(For all vehicles combined)",
+    "show_with_next": true,
+    "next": "vehicleRentInput"
+  },
+
+  "vehicleRentInput": {
+    "type": "bot",
+    "placeholder": "Enter Vechicle Rent",
+    "input": true,
+    "inputType": "rent",
+    "next": "insurance"
+  },
+  "insurance": {
+    "type": "bot",
+    "message": "🏥 What's your monthly health insurance premium?",
+    "show_with_next": true,
+    "next": "insuranceInput"
+  },
+
+  "insuranceInput": {
+    "type": "bot",
+    "placeholder": "Enter Insurance Amount",
+    "input": true,
+    "inputType": "rent",
+    "next": "payment"
+  },
+  "payment": {
+    "type": "bot",
+    "message": "💳 Do you have any monthly debt payments?",
+    "options": [
+      { "id": "yes", "label": "Yes" },
+      { "id": "no", "label": "No" }
+    ],
+    "next": "paymentDebt"
+  },
+  "paymentDebt": {
+    "type": "bot",
+    "message": "📝 Enter your monthly debt payments:",
+    "show_with_next": true,
+    "next": "paymentDebtInput"
+  },
+
+  "paymentDebtInput": {
+    "type": "bot",
+    "placeholder": "Enter Payment Debt",
+    "input": true,
+    "inputType": "rent",
+    "next": "result"
+  },
+
+  "result": {
+    "type": "bot",
+    "message": "Result",
+    "resultButton": true,
+    "next": "resultPage"
+  },
+  "resultPage": {
+    "result": true
+  }
+}

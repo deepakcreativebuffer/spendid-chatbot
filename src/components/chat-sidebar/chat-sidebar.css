@@ -1,0 +1,110 @@
+.sidebar {
+  width: 260px;
+  min-height: 100%;
+  background: linear-gradient(180deg, #f6fbfb 0%, #f3fbfb 100%);
+  border-radius: 14px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 18px rgba(16, 36, 48, 0.06);
+  border-right: 1px solid rgba(10, 40, 50, 0.04);
+}
+
+/* Brand header */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+}
+
+.brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand-text {
+  color: #2baaa0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 17px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(10, 40, 50, 0.06);
+  margin: 6px 0 14px 0;
+}
+
+/* Thread List */
+.thread-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Each thread row */
+.thread {
+  padding: 12px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+  transition: background 0.15s ease;
+}
+
+.thread:hover {
+  background: rgba(80, 198, 177, 0.08);
+}
+
+.thread .title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0d1b2a;
+}
+
+.thread .meta {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8c9aa3;
+}
+
+/* Selected thread */
+.thread.active {
+  background: rgba(72, 196, 174, 0.12);
+  border-left: 3px solid #45c0ad;
+  padding-left: 9px;
+}
+
+/* Bottom button */
+.bottom {
+  padding-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.new-btn {
+  width: 95%;
+  background: linear-gradient(90deg, #6dd3c3, #45c0ad);
+  color: white;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(9, 120, 106, 0.15);
+  transition: transform 0.15s ease;
+}
+
+.new-btn:hover {
+  transform: translateY(-2px);
+}

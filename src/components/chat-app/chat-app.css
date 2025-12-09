@@ -1,0 +1,71 @@
+:root{
+  --bg-outer: #e6e6e6;
+  --panel-bg: #f6fbfb;
+  --mint: #50c6b1;
+  --mint-600: #38b69a;
+  --text-dark: #0d1b2a;
+  --muted: #7b8b96;
+  --white: #ffffff;
+  --card-shadow: 0 10px 30px rgba(16,36,48,0.06);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{height:100%;}
+
+.app-frame{
+  height:100vh;
+  width:100vw;
+  display:flex;
+  overflow:hidden;
+  background:#f4f7f7;
+}
+
+/* Remove huge padding that caused big empty white area */
+.app-frame::before{
+  display:none;
+}
+
+/* Make chat screen take full width beside sidebar */
+chat-screen{
+  flex:1;
+  display:flex;
+}
+
+
+.app-frame {
+  display: flex;
+  width: 100%;
+  height: 100vh;  
+}
+
+/* Normal mode */
+chat-sidebar {
+  width: 260px;
+}
+
+/* Main content always flex */
+.main-area {
+  flex: 1;
+  display: flex;
+}
+
+/* Result mode layout */
+.result-mode chat-sidebar {
+  display: none !important;
+}
+
+.result-mode .main-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.result-mode chat-screen {
+  width: 50%;
+  border-right: 1px solid #e5e7eb;
+}
+
+.result-mode spendid-results {
+  width: 50%;
+  overflow-y: auto;
+}
+
