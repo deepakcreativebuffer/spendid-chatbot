@@ -24,6 +24,7 @@ body {
   width: 100vw;
   display: flex;
   overflow: hidden;
+  overflow-y: scroll;
   background: #f4f7f7;
 }
 
