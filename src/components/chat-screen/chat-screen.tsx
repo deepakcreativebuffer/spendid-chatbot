@@ -55,9 +55,8 @@ export class ChatScreen {
       this.chatMessages = [...this.chatMessages, this.botMessages.ask_location, this.botMessages.zip_input];
     }
 
-    if (id === 'enter_city') {
-      // Add next step
-    }
+    // if (id === 'enter_city') {
+    // }
 
     if (id === 'rent' || id === 'own' || id === 'yes' || id === 'no') {
       const lastBot = [...this.chatMessages].reverse().find(m => m.type === 'bot');
@@ -157,7 +156,6 @@ export class ChatScreen {
 
     if (!msg.input && !msg.options && !msg.show_with_next) return;
 
-    // ✔ AUTO-CONTINUE only when no user response is required
     if (msg.next) {
       this.showMessageAndNext(msg.next);
     }

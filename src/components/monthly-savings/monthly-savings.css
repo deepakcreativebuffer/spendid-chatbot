@@ -9,14 +9,6 @@
   color: #1e1e1e;
 }
 
-/* .bars {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  height: 150px;
-  margin-bottom: 24px;
-} */
-
 .bar-wrapper {
   width: 60px;
   display: flex;
@@ -48,7 +40,7 @@
 
 .chart-container {
   width: 300px;
-  padding-left: 40px; /* space for y-axis */
+  padding-left: 40px;
   padding-bottom: 16px;
   position: relative;
   font-family: Arial, sans-serif;

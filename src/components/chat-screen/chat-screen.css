@@ -27,13 +27,11 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  /* align-items: center;          */
   gap: 28px;
   padding: 20px 20px;
   width: 100%;
 }
 
-/* Chat bubble wrapper width */
 .messages-wrap chat-message {
   max-width: 75%;
   word-wrap: break-word;
@@ -67,7 +65,6 @@
 }
 
 .composer-box {
-  /* max-width: 900px; */
   width: 100%;
   display: flex;
   align-items: center;
@@ -196,7 +193,6 @@
   background: #ffffff;
 }
 
-/* Continue button — matches gradient style from screenshot */
 .input-bubble button {
   width: 100%;
   padding: 10px 14px;
@@ -215,7 +211,6 @@
   margin-bottom: 5px;
 }
 
-/* Hover effect */
 .input-bubble button:hover {
   opacity: 0.9;
   transform: translateY(-1px);

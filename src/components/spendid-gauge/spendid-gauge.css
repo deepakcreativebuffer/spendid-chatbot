@@ -42,7 +42,7 @@
   position: absolute;
   width: 80px;
   height: 80px;
-  background: #f7f9fa; /* soft white inner circle */
+  background: #f7f9fa;
   border-radius: 50%;
   display: flex;
   align-items: center;

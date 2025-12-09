@@ -21,7 +21,6 @@ export class ChatApp {
 
     this.data = await loadInitialData();
 
-    // If no threads exist, create one
     if (!this.data.threads?.length) {
       console.log('asdasdtest>>>>>>>>>');
       this.createNewThread();
@@ -59,12 +58,10 @@ export class ChatApp {
   handleSendMessage(msg: { text: string; ts: number; messages: any }) {
     console.log('msg-chat-message', msg);
     if (this.isBlankChat) {
-      this.isBlankChat = false; // Reset blank chat flag after first message
+      this.isBlankChat = false;
     }
-    // 1. FIND ACTIVE THREAD
     let thread = this.data.threads?.find(t => t.id === this.activeThreadId);
 
-    // 2. IF NO ACTIVE THREAD → CREATE NEW THREAD AUTOMATICALLY
     if (!thread) {
       const id = 't' + Date.now();
       thread = {
@@ -78,16 +75,13 @@ export class ChatApp {
       this.activeThreadId = id;
     }
 
-    // 3. RENAME THREAD BASED ON FIRST MESSAGE
     if (thread.messages.length === 0) {
       const shortTitle = msg.text.length > 20 ? msg.text.slice(0, 20) + '…' : msg.text;
       thread.name = shortTitle;
     }
 
-    // 4. PUSH MESSAGE
     thread.messages = [...msg.messages];
 
-    // 5. SAVE + UPDATE SIDEBAR
     saveData(this.data);
   }
 
@@ -112,7 +106,6 @@ export class ChatApp {
           </button>
         )}
         {this.showSidebar && <div class="sidebar-overlay" onClick={() => (this.showSidebar = false)}></div>}
-        {/* Sidebar */}
         <chat-sidebar
           class={{ show: this.showSidebar }}
           threads={this.data.threads}
@@ -121,7 +114,6 @@ export class ChatApp {
           onCloseResult={() => (this.showResultScreen = false)}
         ></chat-sidebar>
 
-        {/* Main chat area */}
         <div class="main-area" onClick={() => (this.showSidebar = false)}>
           <chat-screen
             isBlankChat={this.isBlankChat}
