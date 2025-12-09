@@ -326,9 +326,7 @@ export class ChatScreen {
                         <div class="input-bubble">
                           <button
                             class="result-btn"
-                            onClick={(e: any) => {
-                              const wrapper = (e.target as HTMLElement).closest('.input-bubble');
-                              const inputEl = wrapper.querySelector('input') as HTMLInputElement;
+                            onClick={() => {
                               this.handleResult('Show Result');
                             }}
                           >
