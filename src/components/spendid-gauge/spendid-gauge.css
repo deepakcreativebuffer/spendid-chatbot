@@ -1,0 +1,64 @@
+:host {
+  display: inline-flex;
+}
+
+/* Container */
+.gauge-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG styling */
+.gauge-svg {
+  width: 120px;
+  height: 120px;
+  transform: rotate(-90deg);
+}
+
+/* Grey base circle */
+.gauge-track {
+  fill: none;
+  stroke: #e6eef0;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+/* Green progress ring */
+.gauge-progress {
+  fill: none;
+  stroke: #2f9b87;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 282.6;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+/* Inner content */
+.gauge-center {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: #f7f9fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.main-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.sub-value {
+  font-size: 12px;
+  color: #93a2ad;
+  margin-top: 2px;
+}

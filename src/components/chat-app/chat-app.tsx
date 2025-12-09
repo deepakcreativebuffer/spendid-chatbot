@@ -21,7 +21,6 @@ export class ChatApp {
 
     this.data = await loadInitialData();
 
-    // If no threads exist, create one
     if (!this.data.threads?.length) {
       console.log('asdasdtest>>>>>>>>>');
       this.createNewThread();
@@ -40,8 +39,9 @@ export class ChatApp {
   createNewThread = () => {
     const newThread = {
       id: 't' + Date.now(),
-      title: 'New Analysis',
+      name: 'New Analysis',
       text: '',
+      messages: [],
       ts: Date.now(),
     };
 
@@ -55,42 +55,33 @@ export class ChatApp {
     this.isBlankChat = true;
     this.activeThreadId = '';
   }
-  handleSendMessage(msg: { text: string; ts: number }) {
+  handleSendMessage(msg: { text: string; ts: number; messages: any }) {
     console.log('msg-chat-message', msg);
     if (this.isBlankChat) {
-      this.isBlankChat = false; // Reset blank chat flag after first message
+      this.isBlankChat = false;
     }
-    // 1. FIND ACTIVE THREAD
     let thread = this.data.threads?.find(t => t.id === this.activeThreadId);
 
-    // 2. IF NO ACTIVE THREAD → CREATE NEW THREAD AUTOMATICALLY
     if (!thread) {
       const id = 't' + Date.now();
       thread = {
         id,
         name: 'New Analysis',
         text: '',
+        messages: [],
         ts: Date.now(),
       };
       this.data.threads?.unshift(thread);
       this.activeThreadId = id;
     }
 
-    // 3. RENAME THREAD BASED ON FIRST MESSAGE
     if (thread.messages.length === 0) {
       const shortTitle = msg.text.length > 20 ? msg.text.slice(0, 20) + '…' : msg.text;
       thread.name = shortTitle;
     }
 
-    // 4. PUSH MESSAGE
-    thread.messages?.push({
-      id: 'm' + msg.ts,
-      from: 'user',
-      text: msg.text,
-      ts: msg.ts,
-    });
+    thread.messages = [...msg.messages];
 
-    // 5. SAVE + UPDATE SIDEBAR
     saveData(this.data);
   }
 
@@ -115,14 +106,19 @@ export class ChatApp {
           </button>
         )}
         {this.showSidebar && <div class="sidebar-overlay" onClick={() => (this.showSidebar = false)}></div>}
-        {/* Sidebar */}
-        <chat-sidebar class={{ show: this.showSidebar }} threads={this.data.threads} active={this.activeThreadId} onNewThread={() => this.startBlankChat()}></chat-sidebar>
+        <chat-sidebar
+          class={{ show: this.showSidebar }}
+          threads={this.data.threads}
+          active={this.activeThreadId}
+          onNewThread={() => this.startBlankChat()}
+          onCloseResult={() => (this.showResultScreen = false)}
+        ></chat-sidebar>
 
-        {/* Main chat area */}
         <div class="main-area" onClick={() => (this.showSidebar = false)}>
           <chat-screen
             isBlankChat={this.isBlankChat}
             thread={this.activeThreadId ? this.data.threads.find(t => t.id === this.activeThreadId) : null}
+            activeThread={this.activeThreadId}
             onSendMessage={(ev: any) => this.handleSendMessage(ev.detail)}
             onShowResult={(e: any) => (this.showResultScreen = e.detail)}
           ></chat-screen>

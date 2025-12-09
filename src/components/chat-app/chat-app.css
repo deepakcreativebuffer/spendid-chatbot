@@ -28,12 +28,10 @@ body {
   background: #f4f7f7;
 }
 
-/* Remove huge padding that caused big empty white area */
 .app-frame::before {
   display: none;
 }
 
-/* Make chat screen take full width beside sidebar */
 chat-screen {
   flex: 1;
   display: flex;
@@ -45,18 +43,15 @@ chat-screen {
   height: 100vh;
 }
 
-/* Normal mode */
 chat-sidebar {
   width: 260px;
 }
 
-/* Main content always flex */
 .main-area {
   flex: 1;
   display: flex;
 }
 
-/* Result mode layout */
 .result-mode chat-sidebar {
   display: none !important;
 }
@@ -76,15 +71,14 @@ chat-sidebar {
   overflow-y: auto;
 }
 
-/* Hamburger button */
 .hamburger {
   display: none;
-  position: fixed; /* fixed so it stays on top */
+  position: fixed;
   top: 16px;
   left: 16px;
   width: 40px;
   height: 40px;
-  background: var(--mint); /* button color */
+  background: var(--mint);
   border-radius: 8px;
   border: none;
   color: black;
@@ -101,7 +95,6 @@ chat-sidebar {
   width: 260px;
   transition: transform 0.3s ease;
 }
-/* Show hamburger only on small screens */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -124,7 +117,6 @@ chat-sidebar {
     transform: translateX(0);
   }
 
-  /* Optional overlay when sidebar open */
   .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -140,7 +132,6 @@ chat-sidebar {
     z-index: 1;
   }
 
-  /* Hamburger */
   .hamburger {
     display: flex;
   }

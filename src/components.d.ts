@@ -6,19 +6,12 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface AppHome {
-    }
-    interface AppProfile {
-        "name": string;
-    }
     interface AppRoot {
     }
     interface ChatApp {
     }
-    interface ChatMessage {
-        "msg": any;
-    }
     interface ChatScreen {
+        "activeThread": string;
         "isBlankChat": boolean;
         "thread": any;
     }
@@ -26,12 +19,20 @@ export namespace Components {
         "active": string;
         "threads": any[];
     }
+    interface CircularProgress {
+        "size": number;
+        "strokeWidth": number;
+        "value": number;
+    }
+    interface MonthlySavings {
+        "data": { label: string; value: number; color: string }[];
+    }
+    interface SpendidGauge {
+        "max": number;
+        "value": number;
+    }
     interface SpendidResults {
     }
-}
-export interface ChatMessageCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLChatMessageElement;
 }
 export interface ChatScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -46,18 +47,6 @@ export interface SpendidResultsCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSpendidResultsElement;
 }
 declare global {
-    interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {
-    }
-    var HTMLAppHomeElement: {
-        prototype: HTMLAppHomeElement;
-        new (): HTMLAppHomeElement;
-    };
-    interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {
-    }
-    var HTMLAppProfileElement: {
-        prototype: HTMLAppProfileElement;
-        new (): HTMLAppProfileElement;
-    };
     interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
     }
     var HTMLAppRootElement: {
@@ -70,25 +59,8 @@ declare global {
         prototype: HTMLChatAppElement;
         new (): HTMLChatAppElement;
     };
-    interface HTMLChatMessageElementEventMap {
-        "handleOption": string;
-    }
-    interface HTMLChatMessageElement extends Components.ChatMessage, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLChatMessageElementEventMap>(type: K, listener: (this: HTMLChatMessageElement, ev: ChatMessageCustomEvent<HTMLChatMessageElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLChatMessageElementEventMap>(type: K, listener: (this: HTMLChatMessageElement, ev: ChatMessageCustomEvent<HTMLChatMessageElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLChatMessageElement: {
-        prototype: HTMLChatMessageElement;
-        new (): HTMLChatMessageElement;
-    };
     interface HTMLChatScreenElementEventMap {
-        "sendMessage": { text: string; ts: number };
+        "sendMessage": { text: string; ts: number; messages: any };
         "showResult": boolean;
     }
     interface HTMLChatScreenElement extends Components.ChatScreen, HTMLStencilElement {
@@ -107,6 +79,7 @@ declare global {
     };
     interface HTMLChatSidebarElementEventMap {
         "newThread": void;
+        "closeResult": boolean;
     }
     interface HTMLChatSidebarElement extends Components.ChatSidebar, HTMLStencilElement {
         addEventListener<K extends keyof HTMLChatSidebarElementEventMap>(type: K, listener: (this: HTMLChatSidebarElement, ev: ChatSidebarCustomEvent<HTMLChatSidebarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -121,6 +94,24 @@ declare global {
     var HTMLChatSidebarElement: {
         prototype: HTMLChatSidebarElement;
         new (): HTMLChatSidebarElement;
+    };
+    interface HTMLCircularProgressElement extends Components.CircularProgress, HTMLStencilElement {
+    }
+    var HTMLCircularProgressElement: {
+        prototype: HTMLCircularProgressElement;
+        new (): HTMLCircularProgressElement;
+    };
+    interface HTMLMonthlySavingsElement extends Components.MonthlySavings, HTMLStencilElement {
+    }
+    var HTMLMonthlySavingsElement: {
+        prototype: HTMLMonthlySavingsElement;
+        new (): HTMLMonthlySavingsElement;
+    };
+    interface HTMLSpendidGaugeElement extends Components.SpendidGauge, HTMLStencilElement {
+    }
+    var HTMLSpendidGaugeElement: {
+        prototype: HTMLSpendidGaugeElement;
+        new (): HTMLSpendidGaugeElement;
     };
     interface HTMLSpendidResultsElementEventMap {
         "closeResult": boolean;
@@ -140,52 +131,57 @@ declare global {
         new (): HTMLSpendidResultsElement;
     };
     interface HTMLElementTagNameMap {
-        "app-home": HTMLAppHomeElement;
-        "app-profile": HTMLAppProfileElement;
         "app-root": HTMLAppRootElement;
         "chat-app": HTMLChatAppElement;
-        "chat-message": HTMLChatMessageElement;
         "chat-screen": HTMLChatScreenElement;
         "chat-sidebar": HTMLChatSidebarElement;
+        "circular-progress": HTMLCircularProgressElement;
+        "monthly-savings": HTMLMonthlySavingsElement;
+        "spendid-gauge": HTMLSpendidGaugeElement;
         "spendid-results": HTMLSpendidResultsElement;
     }
 }
 declare namespace LocalJSX {
-    interface AppHome {
-    }
-    interface AppProfile {
-        "name"?: string;
-    }
     interface AppRoot {
     }
     interface ChatApp {
     }
-    interface ChatMessage {
-        "msg"?: any;
-        "onHandleOption"?: (event: ChatMessageCustomEvent<string>) => void;
-    }
     interface ChatScreen {
+        "activeThread"?: string;
         "isBlankChat"?: boolean;
-        "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number }>) => void;
+        "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number; messages: any }>) => void;
         "onShowResult"?: (event: ChatScreenCustomEvent<boolean>) => void;
         "thread"?: any;
     }
     interface ChatSidebar {
         "active"?: string;
+        "onCloseResult"?: (event: ChatSidebarCustomEvent<boolean>) => void;
         "onNewThread"?: (event: ChatSidebarCustomEvent<void>) => void;
         "threads"?: any[];
+    }
+    interface CircularProgress {
+        "size"?: number;
+        "strokeWidth"?: number;
+        "value"?: number;
+    }
+    interface MonthlySavings {
+        "data"?: { label: string; value: number; color: string }[];
+    }
+    interface SpendidGauge {
+        "max"?: number;
+        "value"?: number;
     }
     interface SpendidResults {
         "onCloseResult"?: (event: SpendidResultsCustomEvent<boolean>) => void;
     }
     interface IntrinsicElements {
-        "app-home": AppHome;
-        "app-profile": AppProfile;
         "app-root": AppRoot;
         "chat-app": ChatApp;
-        "chat-message": ChatMessage;
         "chat-screen": ChatScreen;
         "chat-sidebar": ChatSidebar;
+        "circular-progress": CircularProgress;
+        "monthly-savings": MonthlySavings;
+        "spendid-gauge": SpendidGauge;
         "spendid-results": SpendidResults;
     }
 }
@@ -193,13 +189,13 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
-            "app-profile": LocalJSX.AppProfile & JSXBase.HTMLAttributes<HTMLAppProfileElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "chat-app": LocalJSX.ChatApp & JSXBase.HTMLAttributes<HTMLChatAppElement>;
-            "chat-message": LocalJSX.ChatMessage & JSXBase.HTMLAttributes<HTMLChatMessageElement>;
             "chat-screen": LocalJSX.ChatScreen & JSXBase.HTMLAttributes<HTMLChatScreenElement>;
             "chat-sidebar": LocalJSX.ChatSidebar & JSXBase.HTMLAttributes<HTMLChatSidebarElement>;
+            "circular-progress": LocalJSX.CircularProgress & JSXBase.HTMLAttributes<HTMLCircularProgressElement>;
+            "monthly-savings": LocalJSX.MonthlySavings & JSXBase.HTMLAttributes<HTMLMonthlySavingsElement>;
+            "spendid-gauge": LocalJSX.SpendidGauge & JSXBase.HTMLAttributes<HTMLSpendidGaugeElement>;
             "spendid-results": LocalJSX.SpendidResults & JSXBase.HTMLAttributes<HTMLSpendidResultsElement>;
         }
     }

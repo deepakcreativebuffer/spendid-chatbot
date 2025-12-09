@@ -10,7 +10,10 @@ export class ChatSidebar {
   @Prop() active: string;
 
   @Event() newThread: EventEmitter<void>;
-
+  @Event() closeResult: EventEmitter<boolean>;
+  handleBack() {
+    this.closeResult.emit(false);
+  }
   select(id: string) {
     const ev = new CustomEvent('selectThread', { detail: id });
     window.dispatchEvent(ev);
@@ -57,7 +60,13 @@ export class ChatSidebar {
 
         <ul class="thread-list">
           {this.threads?.map(t => (
-            <li class={`thread ${t.id === this.active ? 'active' : ''}`} onClick={() => this.select(t.id)}>
+            <li
+              class={`thread ${t.id === this.active ? 'active' : ''}`}
+              onClick={() => {
+                this.select(t.id);
+                this.handleBack();
+              }}
+            >
               <div class="title">{t.name}</div>
               <div class="meta">{t.ts ? this.formatTimestamp(t.ts) : '12312'}</div>
             </li>
@@ -65,7 +74,13 @@ export class ChatSidebar {
         </ul>
 
         <div class="bottom">
-          <button class="new-btn" onClick={() => this.newThread.emit()}>
+          <button
+            class="new-btn"
+            onClick={() => {
+              this.newThread.emit();
+              this.handleBack();
+            }}
+          >
             + New Analysis
           </button>
         </div>
