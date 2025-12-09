@@ -26,6 +26,7 @@
 }
 @media (max-width: 1024px) {
 .spendid-container {
+   padding: 40px 20px;
     background: #fff;
     height: 100vh;
     overflow-y: scroll;
@@ -284,6 +285,7 @@
   align-items: center;
   gap: 16px;
   margin-bottom: 20px;
+  justify-content: space-between;
 }
 
 .back-btn {
