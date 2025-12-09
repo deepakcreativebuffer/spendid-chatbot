@@ -41,6 +41,7 @@
 }
 .bubble p {
   word-break: break-word;
+  white-space: pre-line;
 }
 .msg-user .bubble,
 .msg-bot .bubble {
@@ -301,4 +302,8 @@
 
 .panel-subtitle {
   margin-bottom: 10px;
+}
+.disabled-btn {
+  opacity: 0.5;
+  pointer-events: none;
 }

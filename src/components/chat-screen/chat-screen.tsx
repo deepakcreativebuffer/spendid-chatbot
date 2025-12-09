@@ -106,16 +106,32 @@ export class ChatScreen {
       return;
     }
 
-    if (lastBot?.quesType === 'income' && isNaN(Number(this.input.trim()))) {
-      const validationMsg = { type: 'bot', message: 'Enter valid Income', next: lastBot?.next };
-      this.chatMessages = [...this.chatMessages, validationMsg];
-      this.sendMessage.emit({
-        text: this.input,
-        ts: Date.now(),
-        messages: this.chatMessages,
-      });
-      this.input = '';
-      return;
+    if (lastBot?.quesType === 'income') {
+      const raw = this.input.trim();
+      const num = Number(raw); // convert string → number
+
+      // VALID VALUES: 1, 2, 3, 4
+      const isValid = [1, 2, 3, 4].includes(num);
+
+      if (!isValid) {
+        const validationMsg = {
+          type: 'bot',
+          message: 'Enter valid Income (only 1, 2, 3, or 4 allowed)',
+          next: lastBot?.next,
+          quesType: lastBot?.quesType,
+        };
+
+        this.chatMessages = [...this.chatMessages, validationMsg];
+
+        this.sendMessage.emit({
+          text: this.input,
+          ts: Date.now(),
+          messages: this.chatMessages,
+        });
+
+        this.input = '';
+        return;
+      }
     }
 
     if (lastBot?.next) {
@@ -126,6 +142,7 @@ export class ChatScreen {
       this.dynamicInputCount = count;
       this.dynamicValues = Array(count).fill('');
     }
+    console.log('last', lastBot);
     if (lastBot?.quesType === 'income') {
       this.handleIncomeSourceCount(Number(this.input.trim()));
     }
@@ -159,6 +176,17 @@ export class ChatScreen {
     if (msg.next) {
       this.showMessageAndNext(msg.next);
     }
+  }
+
+  get disableMainSend() {
+    const last = this.chatMessages[this.chatMessages.length - 1];
+
+    // If last message is bot AND has its own input bubble, disable bottom send
+    if (last?.type === 'bot' && last?.input) {
+      return true;
+    }
+
+    return false;
   }
 
   handleInputSubmit(msg: string) {
@@ -281,6 +309,18 @@ export class ChatScreen {
                             this.inputType === 'text' ? 'Zip' : 'Area'
                           } Instant`}</button>
                           <button
+                            disabled={
+                              !this.bubbleInput ||
+                              (this.inputType === 'number' && this.bubbleInput.length !== 5) ||
+                              (this.inputType === 'text' && this.bubbleInput.trim().length < 2)
+                            }
+                            class={
+                              !this.bubbleInput ||
+                              (this.inputType === 'number' && this.bubbleInput.length !== 5) ||
+                              (this.inputType === 'text' && this.bubbleInput.trim().length < 2)
+                                ? 'disabled-btn'
+                                : ''
+                            }
                             onClick={(e: any) => {
                               const wrapper = (e.target as HTMLElement).closest('.input-bubble');
                               const inputEl = wrapper.querySelector('input') as HTMLInputElement;
@@ -312,6 +352,8 @@ export class ChatScreen {
                           ))}
 
                           <button
+                            disabled={this.dynamicValues.some(v => !v || v.trim() === '')}
+                            class={this.dynamicValues.some(v => !v || v.trim() === '') ? 'disabled-btn' : ''}
                             onClick={() => {
                               const allAges = this.dynamicValues.map((age, index) => `Person ${index + 1}: ${age}`).join(' , ');
                               this.handleInputSubmit(allAges);
@@ -415,9 +457,12 @@ export class ChatScreen {
                           ))}
 
                           <button
-                            class="panel-button"
+                            class={`panel-button ${
+                              this.incomeSources.some(s => !s.occupation?.trim() || !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim()) ? 'disabled-btn' : ''
+                            }`}
+                            disabled={this.incomeSources.some(s => !s.occupation?.trim() || !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim())}
                             onClick={() => {
-                              const output = this.incomeSources.map((src, i) => `Source ${i + 1}: ${src.occupation} | ${src.frequency} | ${src.amount} | ${src.type}`).join(' , ');
+                              const output = this.incomeSources.map((src, i) => `Source ${i + 1}: ${src.occupation} | ${src.frequency} | ${src.amount} | ${src.type}`).join('\n');
 
                               this.handleInputSubmit(output);
                             }}
@@ -441,7 +486,12 @@ export class ChatScreen {
             <div class="composer-box">
               <input value={this.input} onInput={(e: any) => (this.input = e.target.value)} placeholder="Type Here" />
 
-              <button class="send" onClick={() => this.onSend()} aria-label="Send">
+              <button
+                class={`send ${this.disableMainSend ? 'disabled-btn' : ''}`}
+                disabled={this.disableMainSend}
+                onClick={() => !this.disableMainSend && this.onSend()}
+                aria-label="Send"
+              >
                 ➤
               </button>
             </div>
