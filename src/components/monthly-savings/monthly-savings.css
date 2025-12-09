@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.chart-container h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: #1e1e1e;
+}
+
+/* .bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 150px;
+  margin-bottom: 24px;
+} */
+
+.bar-wrapper {
+  width: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar {
+  width: 100%;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.y-axis {
+  position: absolute;
+  left: 0;
+  top: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+}
+
+.y-label {
+  font-size: 12px;
+  color: #8c9bb3;
+}
+
+.chart-container {
+  width: 300px;
+  padding-left: 40px; /* space for y-axis */
+  padding-bottom: 16px;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 150px;
+  margin-left: 0;
+  border-left: 1px solid #cbd4e0;
+  position: relative;
+  border-bottom: 1px solid #cbd4e0;
+}
+
+.y-axis {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.y-label {
+  font-size: 12px;
+  color: #8c9bb3;
+}

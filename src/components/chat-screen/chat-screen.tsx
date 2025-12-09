@@ -19,7 +19,10 @@ export class ChatScreen {
   @State() incomeAmount = '';
   @State() incomeType = '';
   @State() currentBotKey = 'welcome';
+  @State() dynamicInputCount: number = 0;
+  @State() dynamicValues: string[] = [];
   @Event() showResult: EventEmitter<boolean>;
+  @State() incomeSources: any[] = [];
   botMessages: any = {};
   private messagesWrap!: HTMLElement;
   @Watch('isBlankChat')
@@ -36,23 +39,6 @@ export class ChatScreen {
       this.chatMessages = [this.botMessages.welcome];
     }
   }
-  //   @Watch('activeThread')
-  //   handleThread() {
-  //     if (this.activeThread) {
-  //       this.chatMessages = this.thread?.messages;
-  //     }
-  //   }
-
-  //   @Watch('thread')
-  //   handleThreadChange() {
-  //     if (this.thread) {
-  //       // Set messages from the selected thread
-  //       this.chatMessages = this.thread.messages?.length ? [...this.thread.messages] : [this.botMessages.welcome];
-  //     } else if (this.isBlankChat) {
-  //       // If no thread selected, show blank chat
-  //       this.chatMessages = [this.botMessages.welcome];
-  //     }
-  //   }
 
   async componentWillLoad() {
     const res = await fetch('/assets/data.json');
@@ -85,6 +71,19 @@ export class ChatScreen {
     this.inputType = type;
   }
 
+  handleIncomeSourceCount(count: number) {
+    const num = Number(count);
+
+    this.incomeSources = Array(num)
+      .fill(0)
+      .map(() => ({
+        occupation: '',
+        frequency: '',
+        amount: '',
+        type: '',
+      }));
+  }
+
   onSend() {
     if (!this.input.trim()) return;
     const lastBot = [...this.chatMessages].reverse().find(m => m.type === 'bot');
@@ -95,7 +94,6 @@ export class ChatScreen {
     if (this.input.toLowerCase().includes('dont know') || this.input.toLowerCase().includes("don't know")) {
       this.chatMessages = [...this.chatMessages, this.botMessages.zip_not_known];
     }
-    console.log('lastBotmessage>>>', lastBot);
 
     if (lastBot?.quesType === 'household' && isNaN(Number(this.input.trim()))) {
       const validationMsg = { type: 'bot', message: 'Enter valid household Number', next: lastBot?.next };
@@ -123,6 +121,14 @@ export class ChatScreen {
 
     if (lastBot?.next) {
       this.showMessageAndNext(lastBot.next);
+    }
+    if (lastBot?.quesType === 'household') {
+      const count = Number(this.input.trim());
+      this.dynamicInputCount = count;
+      this.dynamicValues = Array(count).fill('');
+    }
+    if (lastBot?.quesType === 'income') {
+      this.handleIncomeSourceCount(Number(this.input.trim()));
     }
 
     this.sendMessage.emit({
@@ -209,58 +215,36 @@ export class ChatScreen {
   validateZip(e: any) {
     let value = e.target.value;
 
-    // ZIP MODE (Number)
     if (this.inputType !== 'text') {
-      // Allow ONLY digits
       value = value.replace(/\D/g, '');
 
-      // Limit to 5 digits
       if (value.length > 5) {
         value = value.slice(0, 5);
       }
-    }
-
-    // AREA MODE (Text)
-    else {
-      // Allow only letters & spaces
+    } else {
       value = value.replace(/[^A-Za-z\s]/g, '');
-
-      // Max length handled by maxLength attr already
     }
 
-    // Update state
     this.bubbleInput = value;
 
-    // Update input field value
     e.target.value = value;
   }
 
   validateAge(e: any) {
     let value = e.target.value;
 
-    // ZIP MODE (Number)
     if (this.inputType !== 'text') {
-      // Allow ONLY digits
       value = value.replace(/\D/g, '');
 
-      // Limit to 5 digits
       if (value.length > 3) {
         value = value.slice(0, 3);
       }
-    }
-
-    // AREA MODE (Text)
-    else {
-      // Allow only letters & spaces
+    } else {
       value = value.replace(/[^A-Za-z\s]/g, '');
-
-      // Max length handled by maxLength attr already
     }
 
-    // Update state
     this.bubbleInput = value;
 
-    // Update input field value
     e.target.value = value;
   }
 
@@ -312,24 +296,34 @@ export class ChatScreen {
 
                       {m.input && m.inputType === 'house_hold' && (
                         <div class="input-bubble">
-                          <p class="input-label">Person 1</p>
-                          <input
-                            type="number"
-                            placeholder={m.placeholder}
-                            onInput={(e: any) => this.validateAge(e)}
-                            onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value)}
-                          />
+                          {this.dynamicValues.map((val, index) => (
+                            <div class="age-row">
+                              <p class="input-label">Person {index + 1}</p>
+
+                              <input
+                                type="number"
+                                placeholder="Enter Age"
+                                value={val}
+                                onInput={(e: any) => {
+                                  const newArr = [...this.dynamicValues];
+                                  newArr[index] = e.target.value;
+                                  this.dynamicValues = newArr;
+                                }}
+                              />
+                            </div>
+                          ))}
+
                           <button
-                            onClick={(e: any) => {
-                              const wrapper = (e.target as HTMLElement).closest('.input-bubble');
-                              const inputEl = wrapper.querySelector('input') as HTMLInputElement;
-                              this.handleInputSubmit(inputEl.value);
+                            onClick={() => {
+                              const allAges = this.dynamicValues.map((age, index) => `Person ${index + 1}: ${age}`).join(' , ');
+                              this.handleInputSubmit(allAges);
                             }}
                           >
                             Continue
                           </button>
                         </div>
                       )}
+
                       {m.resultButton && (
                         <div class="input-bubble">
                           <button
@@ -362,39 +356,75 @@ export class ChatScreen {
 
                       {m.input && m.inputType === 'income' && (
                         <div class="panel-box">
-                          <p class="panel-title">Income Source 2</p>
+                          <p class="panel-title">Income Sources</p>
 
-                          <div class="panel-field">
-                            <input type="text" placeholder="Occupation" value={this.incomeOccupation} onInput={(e: any) => (this.incomeOccupation = e.target.value)} />
-                          </div>
+                          {this.incomeSources.map((src, index) => (
+                            <div class="income-panel">
+                              <p class="panel-subtitle">Source {index + 1}</p>
 
-                          <div class="panel-field dropdown">
-                            <select onInput={(e: Event) => (this.incomeFrequency = (e.target as HTMLSelectElement).value)}>
-                              <option value="">Pay Frequency</option>
-                              <option value="weekly">Weekly</option>
-                              <option value="biweekly">Bi-Weekly</option>
-                              <option value="monthly">Monthly</option>
-                            </select>
-                            <span class="caret"></span>
-                          </div>
+                              <div class="panel-field">
+                                <input
+                                  type="text"
+                                  placeholder="Occupation"
+                                  value={src.occupation}
+                                  onInput={(e: any) => {
+                                    this.incomeSources[index].occupation = e.target.value;
+                                    this.incomeSources = [...this.incomeSources];
+                                  }}
+                                />
+                              </div>
 
-                          <div class="panel-field">
-                            <input type="number" placeholder="Amount" value={this.incomeAmount} onInput={(e: any) => (this.incomeAmount = e.target.value)} />
-                          </div>
+                              <div class="panel-field dropdown">
+                                <select
+                                  onInput={(e: any) => {
+                                    this.incomeSources[index].frequency = e.target.value;
+                                    this.incomeSources = [...this.incomeSources];
+                                  }}
+                                >
+                                  <option value="">Pay Frequency</option>
+                                  <option value="weekly">Weekly</option>
+                                  <option value="biweekly">Bi-Weekly</option>
+                                  <option value="monthly">Monthly</option>
+                                </select>
+                                <span class="caret"></span>
+                              </div>
 
-                          <div class="panel-field dropdown">
-                            <select onInput={(e: Event) => (this.incomeType = (e.target as HTMLSelectElement).value)}>
-                              <option value="">Income Type</option>
-                              <option value="salary">Salary</option>
-                              <option value="bonus">Bonus</option>
-                              <option value="commission">Commission</option>
-                            </select>
-                            <span class="caret"></span>
-                          </div>
+                              <div class="panel-field">
+                                <input
+                                  type="number"
+                                  placeholder="Amount"
+                                  value={src.amount}
+                                  onInput={(e: any) => {
+                                    this.incomeSources[index].amount = e.target.value;
+                                    this.incomeSources = [...this.incomeSources];
+                                  }}
+                                />
+                              </div>
+
+                              <div class="panel-field dropdown">
+                                <select
+                                  onInput={(e: any) => {
+                                    this.incomeSources[index].type = e.target.value;
+                                    this.incomeSources = [...this.incomeSources];
+                                  }}
+                                >
+                                  <option value="">Income Type</option>
+                                  <option value="salary">Salary</option>
+                                  <option value="bonus">Bonus</option>
+                                  <option value="commission">Commission</option>
+                                </select>
+                                <span class="caret"></span>
+                              </div>
+                            </div>
+                          ))}
 
                           <button
                             class="panel-button"
-                            onClick={() => this.handleInputSubmit(`${this.incomeOccupation} | ${this.incomeFrequency} | ${this.incomeAmount} | ${this.incomeType}`)}
+                            onClick={() => {
+                              const output = this.incomeSources.map((src, i) => `Source ${i + 1}: ${src.occupation} | ${src.frequency} | ${src.amount} | ${src.type}`).join(' , ');
+
+                              this.handleInputSubmit(output);
+                            }}
                           >
                             Continue
                           </button>

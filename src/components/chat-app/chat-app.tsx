@@ -113,7 +113,13 @@ export class ChatApp {
         )}
         {this.showSidebar && <div class="sidebar-overlay" onClick={() => (this.showSidebar = false)}></div>}
         {/* Sidebar */}
-        <chat-sidebar class={{ show: this.showSidebar }} threads={this.data.threads} active={this.activeThreadId} onNewThread={() => this.startBlankChat()}></chat-sidebar>
+        <chat-sidebar
+          class={{ show: this.showSidebar }}
+          threads={this.data.threads}
+          active={this.activeThreadId}
+          onNewThread={() => this.startBlankChat()}
+          onCloseResult={() => (this.showResultScreen = false)}
+        ></chat-sidebar>
 
         {/* Main chat area */}
         <div class="main-area" onClick={() => (this.showSidebar = false)}>

@@ -8,14 +8,14 @@ import { Component, Event, EventEmitter, h } from '@stencil/core';
 export class SpendidResults {
   @Event() closeResult: EventEmitter<boolean>;
   handleBack() {
-    this.closeResult.emit(false); // Emit false → close result screen
+    this.closeResult.emit(false);
   }
   render() {
     return (
       <div class="spendid-container">
         <div class="header-row">
           <button class="back-btn" onClick={() => this.handleBack()}>
-            ← Back
+            Close
           </button>
 
           <div class="header-box">✨ Your SPENDiD Results ✨</div>
@@ -25,14 +25,7 @@ export class SpendidResults {
           <div class="card-left">
             <div class="card-title">Budget Health Score</div>
 
-            <div class="gauge">
-              <div class="gauge-ring">
-                <div class="gauge-text">
-                  99.6
-                  <div class="sub">/100</div>
-                </div>
-              </div>
-            </div>
+            <spendid-gauge value={79.6} max={100}></spendid-gauge>
           </div>
 
           <div class="card-right">
@@ -46,20 +39,12 @@ export class SpendidResults {
         <section class="card savings-card">
           <div class="card-title">Monthly Savings Ability</div>
 
-          <div class="bar-graph">
-            <div class="y-labels">
-              <div>16000</div>
-              <div>12000</div>
-              <div>8000</div>
-              <div>4000</div>
-              <div>0</div>
-            </div>
-
-            <div class="bars">
-              <div class="bar big"></div>
-              <div class="bar small"></div>
-            </div>
-          </div>
+          <monthly-savings
+            data={[
+              { label: 'Savings 1', value: 13000, color: '#4B8E7D' },
+              { label: 'Savings 2', value: 8000, color: '#88E6F9' },
+            ]}
+          ></monthly-savings>
 
           <div class="score-row">
             <div class="score-pill">
@@ -77,15 +62,16 @@ export class SpendidResults {
           <div class="card-title">Spending Breakdown (50–30–20)</div>
 
           <div class="breakdown-content">
-            <div class="donut">
+            {/* <div class="donut">
               <div class="donut-ring">
                 <div class="donut-text">
                   99.6
                   <div class="sub">/100</div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
+            <circular-progress value={79.6} size={150} strokeWidth={12}></circular-progress>
             <div class="legend">
               <div class="legend-row">
                 <span class="dot gold"></span>Needs <strong>10%</strong>
