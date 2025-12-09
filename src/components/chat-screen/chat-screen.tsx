@@ -355,7 +355,7 @@ export class ChatScreen {
                             disabled={this.dynamicValues.some(v => !v || v.trim() === '')}
                             class={this.dynamicValues.some(v => !v || v.trim() === '') ? 'disabled-btn' : ''}
                             onClick={() => {
-                              const allAges = this.dynamicValues.map((age, index) => `Person ${index + 1}: ${age}`).join(' , ');
+                              const allAges = this.dynamicValues.map((age, index) => `Person ${index + 1}: ${age}`).join('\n');
                               this.handleInputSubmit(allAges);
                             }}
                           >
@@ -462,7 +462,10 @@ export class ChatScreen {
                             }`}
                             disabled={this.incomeSources.some(s => !s.occupation?.trim() || !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim())}
                             onClick={() => {
-                              const output = this.incomeSources.map((src, i) => `Source ${i + 1}: ${src.occupation} | ${src.frequency} | ${src.amount} | ${src.type}`).join('\n');
+                              //   const output = this.incomeSources
+                              //     .map((src, i) => `Income Source ${i + 1}: ${src.occupation} | ${src.frequency} | ${src.amount} | ${src.type}`)
+                              //     .join('\n');
+                              const output = this.incomeSources.map((src, i) => `Income Source ${i + 1}: ${src.amount}`).join('\n');
 
                               this.handleInputSubmit(output);
                             }}
