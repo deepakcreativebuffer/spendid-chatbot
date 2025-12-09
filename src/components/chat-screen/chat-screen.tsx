@@ -1,5 +1,10 @@
 import { Component, h, Prop, Event, EventEmitter, State, Fragment, Watch } from '@stencil/core';
-
+interface ChatMessage {
+  type: string;
+  message: string;
+  replyType?: string;
+  [key: string]: any;
+}
 @Component({
   tag: 'chat-screen',
   styleUrl: 'chat-screen.css',
@@ -9,11 +14,11 @@ export class ChatScreen {
   @Prop() thread: any;
   @Prop() isBlankChat: boolean = false;
   @Prop() activeThread: string = '';
-  @Event() sendMessage: EventEmitter<{ text: string; ts: number; messages: any }>;
+  @Event() sendMessage: EventEmitter<{ text: string; ts: number; messages: ChatMessage[] }>;
   @State() input = '';
   @State() bubbleInput = '';
   @State() inputType: string = 'number';
-  @State() chatMessages: any[] = [];
+  @State() chatMessages: ChatMessage[] = [];
   @State() incomeOccupation = '';
   @State() incomeFrequency = '';
   @State() incomeAmount = '';
@@ -87,7 +92,14 @@ export class ChatScreen {
     if (!this.input.trim()) return;
     const lastBot = [...this.chatMessages].reverse().find(m => m.type === 'bot');
 
-    const userMsg = { type: 'user', message: this.input };
+    let userMsg: ChatMessage = { type: 'user', message: this.input };
+
+    if (lastBot.quesType === 'household') {
+      userMsg = { ...userMsg, replyType: 'household' };
+    }
+    if (lastBot.quesType === 'income') {
+      userMsg = { ...userMsg, replyType: 'income' };
+    }
     this.chatMessages = [...this.chatMessages, userMsg];
 
     if (this.input.toLowerCase().includes('dont know') || this.input.toLowerCase().includes("don't know")) {
@@ -108,9 +120,8 @@ export class ChatScreen {
 
     if (lastBot?.quesType === 'income') {
       const raw = this.input.trim();
-      const num = Number(raw); // convert string → number
+      const num = Number(raw);
 
-      // VALID VALUES: 1, 2, 3, 4
       const isValid = [1, 2, 3, 4].includes(num);
 
       if (!isValid) {
@@ -189,11 +200,11 @@ export class ChatScreen {
     return false;
   }
 
-  handleInputSubmit(msg: string) {
+  handleInputSubmit(msg: string, reply: string) {
     console.log('mesg123', msg);
     if (!msg.trim()) return;
 
-    const userMsg = { type: 'user', message: msg };
+    const userMsg = { type: 'user', message: msg, replyType: reply };
     this.chatMessages = [...this.chatMessages, userMsg];
 
     if (msg.toLowerCase().includes('dont know') || msg.toLowerCase().includes("don't know")) {
@@ -282,12 +293,57 @@ export class ChatScreen {
         <div class="canvas">
           <div class="messages-wrap" ref={el => (this.messagesWrap = el)}>
             {this.chatMessages.map((m: any) => {
+              const isAgeMessage = m.replyType === 'age' && typeof m.message === 'string' && m.message.includes('Person');
+              const isIncomeMessage = m.replyType === 'income' && typeof m.message === 'string' && m.message.includes('Income Source');
+              let incomeItems = [];
+              if (isIncomeMessage) {
+                incomeItems = m.message.split('\n').map(line => {
+                  const [label, value] = line.split(':');
+                  return { label: label.trim(), value: value.trim() };
+                });
+              }
+              let ageItems = [];
+              if (isAgeMessage) {
+                ageItems = m.message.split('\n').map(line => {
+                  const [label, value] = line.split(':');
+                  return {
+                    label: label.trim(),
+                    value: value.trim(),
+                  };
+                });
+              }
               return (
                 <Fragment>
                   <div class={m.type === 'bot' ? 'msg-bot' : 'msg-user'}>
                     {m.type === 'bot' && <img class="avatar-bot" src="/assets/icon/avatar.svg" alt="bot" />}
                     <div class="bubble">
-                      <p>{m.message}</p>
+                      {isAgeMessage ? (
+                        <div class="age-container">
+                          {ageItems.map(item => (
+                            <div class="age-pill">
+                              <span class="label">{item.label} :</span>
+                              <span class="value">{item.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {/* INCOME UI */}
+                      {isIncomeMessage ? (
+                        <div class="age-container">
+                          {' '}
+                          {/* same style */}
+                          {incomeItems.map(item => (
+                            <div class="age-pill">
+                              <span class="label">{item.label} :</span>
+                              <span class="value">{item.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {/* NORMAL MESSAGE */}
+                      {!isAgeMessage && !isIncomeMessage && <p>{m.message}</p>}
                       {m.options && (
                         <div class="options-row">
                           {m.options.map((opt: any) => (
@@ -303,7 +359,7 @@ export class ChatScreen {
                             type={this.inputType === 'text' ? 'text' : 'number'}
                             placeholder={this.inputType === 'text' ? 'Enter Area' : 'Enter Zip'}
                             onInput={(e: any) => this.validateZip(e)}
-                            onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value)}
+                            onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value, 'zip')}
                           />
                           <button class="option" onClick={() => this.handleOptionType(this.inputType === 'text' ? 'number' : 'text')}>{`Type ${
                             this.inputType === 'text' ? 'Zip' : 'Area'
@@ -324,7 +380,7 @@ export class ChatScreen {
                             onClick={(e: any) => {
                               const wrapper = (e.target as HTMLElement).closest('.input-bubble');
                               const inputEl = wrapper.querySelector('input') as HTMLInputElement;
-                              this.handleInputSubmit(inputEl.value);
+                              this.handleInputSubmit(inputEl.value, m.replyType);
                             }}
                           >
                             Continue
@@ -356,7 +412,7 @@ export class ChatScreen {
                             class={this.dynamicValues.some(v => !v || v.trim() === '') ? 'disabled-btn' : ''}
                             onClick={() => {
                               const allAges = this.dynamicValues.map((age, index) => `Person ${index + 1}: ${age}`).join('\n');
-                              this.handleInputSubmit(allAges);
+                              this.handleInputSubmit(allAges, m.replyType);
                             }}
                           >
                             Continue
@@ -379,12 +435,12 @@ export class ChatScreen {
 
                       {m.input && m.inputType === 'rent' && (
                         <div class="input-bubble">
-                          <input type="number" placeholder={m.placeholder} onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value)} />
+                          <input type="number" placeholder={m.placeholder} onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value, m.replyType)} />
                           <button
                             onClick={(e: any) => {
                               const wrapper = (e.target as HTMLElement).closest('.input-bubble');
                               const inputEl = wrapper.querySelector('input') as HTMLInputElement;
-                              this.handleInputSubmit(inputEl.value);
+                              this.handleInputSubmit(inputEl.value, m.replyType);
                             }}
                           >
                             Continue
@@ -467,7 +523,7 @@ export class ChatScreen {
                               //     .join('\n');
                               const output = this.incomeSources.map((src, i) => `Income Source ${i + 1}: ${src.amount}`).join('\n');
 
-                              this.handleInputSubmit(output);
+                              this.handleInputSubmit(output, m.replyType);
                             }}
                           >
                             Continue

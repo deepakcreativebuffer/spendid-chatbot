@@ -134,7 +134,7 @@
   color: #fff;
   padding: 12px 18px;
   border-radius: 15px;
-  max-width: 240px;
+  max-width: 270px;
 }
 
 .options-row {
@@ -306,4 +306,28 @@
 .disabled-btn {
   opacity: 0.5;
   pointer-events: none;
+}
+.age-container {
+  display: flex;
+  gap: 10px;
+  background: #4eb2a0;
+  padding: 0px;
+  border-radius: 40px;
+  flex-wrap: wrap;
+}
+
+.age-pill {
+  background: #e2ffff;
+  padding: 7px 24px;
+  border-radius: 40px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0d1830;
+}
+
+.age-pill .value {
+  font-weight: 600;
 }

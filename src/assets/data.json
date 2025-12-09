@@ -12,7 +12,7 @@
 
   "ask_location": {
     "type": "bot",
-    "message": "📍 Location\nGreat! First, what's your zip code or Area?"
+    "message": "Location\nGreat! First, what's your zip code or Area?"
   },
 
   "zip_input": {
@@ -21,7 +21,8 @@
     "placeholder": "Enter Zip Code",
     "input": true,
     "inputType": "zip_input",
-    "next": "house_hold"
+    "next": "house_hold",
+    "replyType": "zip"
   },
 
   "house_hold": {
@@ -43,7 +44,8 @@
     "placeholder": "Enter Age",
     "input": true,
     "inputType": "house_hold",
-    "next": "income"
+    "next": "income",
+    "replyType": "age"
   },
 
   "income": {
@@ -62,15 +64,15 @@
   "income_source_input": {
     "type": "bot",
     "placeholder": "Enter Income",
-
     "input": true,
     "inputType": "income",
-    "next": "rent"
+    "next": "rent",
+    "replyType": "income"
   },
 
   "rent": {
     "type": "bot",
-    "message": "🏡 Do you rent or own your home?",
+    "message": "Do you rent or own your home?",
     "options": [
       { "id": "rent", "label": "Rent" },
       { "id": "own", "label": "Own" }
@@ -80,7 +82,7 @@
 
   "monthlyRent": {
     "type": "bot",
-    "message": "💵 What is your monthly rent/mortgage payment?",
+    "message": "What is your monthly rent/mortgage payment?",
     "show_with_next": true,
     "next": "monthlyRentInput"
   },
@@ -88,14 +90,14 @@
   "monthlyRentInput": {
     "type": "bot",
     "placeholder": "Enter Monthly Rent",
-
     "input": true,
     "inputType": "rent",
-    "next": "propertyTaxes"
+    "next": "propertyTaxes",
+    "replyType": "rent"
   },
   "propertyTaxes": {
     "type": "bot",
-    "message": "📋 Does this include property taxes and homeowner insurance?",
+    "message": "Does this include property taxes and homeowner insurance?",
     "options": [
       { "id": "yes", "label": "Yes" },
       { "id": "no", "label": "No" }
@@ -105,7 +107,7 @@
 
   "vehicleRent": {
     "type": "bot",
-    "message": "🚗 What's your total monthly vehicle payment?(For all vehicles combined)",
+    "message": "What's your total monthly vehicle payment?(For all vehicles combined)",
     "show_with_next": true,
     "next": "vehicleRentInput"
   },
@@ -115,11 +117,12 @@
     "placeholder": "Enter Vechicle Rent",
     "input": true,
     "inputType": "rent",
-    "next": "insurance"
+    "next": "insurance",
+    "replyType": "vehicle"
   },
   "insurance": {
     "type": "bot",
-    "message": "🏥 What's your monthly health insurance premium?",
+    "message": "What's your monthly health insurance premium?",
     "show_with_next": true,
     "next": "insuranceInput"
   },
@@ -129,11 +132,12 @@
     "placeholder": "Enter Insurance Amount",
     "input": true,
     "inputType": "rent",
-    "next": "payment"
+    "next": "payment",
+    "replyType": "insurance"
   },
   "payment": {
     "type": "bot",
-    "message": "💳 Do you have any monthly debt payments?",
+    "message": "Do you have any monthly debt payments?",
     "options": [
       { "id": "yes", "label": "Yes" },
       { "id": "no", "label": "No" }
@@ -142,7 +146,7 @@
   },
   "paymentDebt": {
     "type": "bot",
-    "message": "📝 Enter your monthly debt payments:",
+    "message": "Enter your monthly debt payments:",
     "show_with_next": true,
     "next": "paymentDebtInput"
   },
@@ -152,7 +156,8 @@
     "placeholder": "Enter Payment Debt",
     "input": true,
     "inputType": "rent",
-    "next": "result"
+    "next": "result",
+    "replyType": "payment"
   },
 
   "result": {

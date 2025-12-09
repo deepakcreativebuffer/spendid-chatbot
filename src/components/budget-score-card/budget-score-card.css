@@ -1,0 +1,81 @@
+.card-container {
+  width: 100%;
+  max-width: 450px;
+  background: linear-gradient(135deg, #6a50ff, #441fbf);
+  padding: 28px;
+  border-radius: 22px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.help-icon {
+  border-radius: 50%;
+  border: 2px solid white;
+  padding: 2px 8px;
+  font-size: 16px;
+}
+
+.content-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gauge-box {
+  position: relative;
+}
+
+.gauge {
+  width: 150px;
+  height: 150px;
+}
+
+.axis-labels {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: -10px;
+  font-size: 14px;
+}
+
+.peer-box {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.peer-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.peer-value {
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.bottom-box {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wave-icon {
+  width: 55px;
+  opacity: 0.8;
+}
+
+.score-value {
+  font-size: 58px;
+  font-weight: 700;
+}

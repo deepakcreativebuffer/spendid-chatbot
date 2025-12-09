@@ -8,6 +8,10 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppRoot {
     }
+    interface BudgetScoreCard {
+        "peerScore": number;
+        "score": number;
+    }
     interface ChatApp {
     }
     interface ChatScreen {
@@ -32,6 +36,7 @@ export namespace Components {
         "value": number;
     }
     interface SpendidResults {
+        "thread": any;
     }
 }
 export interface ChatScreenCustomEvent<T> extends CustomEvent<T> {
@@ -53,6 +58,12 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
+    interface HTMLBudgetScoreCardElement extends Components.BudgetScoreCard, HTMLStencilElement {
+    }
+    var HTMLBudgetScoreCardElement: {
+        prototype: HTMLBudgetScoreCardElement;
+        new (): HTMLBudgetScoreCardElement;
+    };
     interface HTMLChatAppElement extends Components.ChatApp, HTMLStencilElement {
     }
     var HTMLChatAppElement: {
@@ -60,7 +71,7 @@ declare global {
         new (): HTMLChatAppElement;
     };
     interface HTMLChatScreenElementEventMap {
-        "sendMessage": { text: string; ts: number; messages: any };
+        "sendMessage": { text: string; ts: number; messages: ChatMessage[] };
         "showResult": boolean;
     }
     interface HTMLChatScreenElement extends Components.ChatScreen, HTMLStencilElement {
@@ -132,6 +143,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-root": HTMLAppRootElement;
+        "budget-score-card": HTMLBudgetScoreCardElement;
         "chat-app": HTMLChatAppElement;
         "chat-screen": HTMLChatScreenElement;
         "chat-sidebar": HTMLChatSidebarElement;
@@ -144,12 +156,16 @@ declare global {
 declare namespace LocalJSX {
     interface AppRoot {
     }
+    interface BudgetScoreCard {
+        "peerScore"?: number;
+        "score"?: number;
+    }
     interface ChatApp {
     }
     interface ChatScreen {
         "activeThread"?: string;
         "isBlankChat"?: boolean;
-        "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number; messages: any }>) => void;
+        "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number; messages: ChatMessage[] }>) => void;
         "onShowResult"?: (event: ChatScreenCustomEvent<boolean>) => void;
         "thread"?: any;
     }
@@ -173,9 +189,11 @@ declare namespace LocalJSX {
     }
     interface SpendidResults {
         "onCloseResult"?: (event: SpendidResultsCustomEvent<boolean>) => void;
+        "thread"?: any;
     }
     interface IntrinsicElements {
         "app-root": AppRoot;
+        "budget-score-card": BudgetScoreCard;
         "chat-app": ChatApp;
         "chat-screen": ChatScreen;
         "chat-sidebar": ChatSidebar;
@@ -190,6 +208,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "budget-score-card": LocalJSX.BudgetScoreCard & JSXBase.HTMLAttributes<HTMLBudgetScoreCardElement>;
             "chat-app": LocalJSX.ChatApp & JSXBase.HTMLAttributes<HTMLChatAppElement>;
             "chat-screen": LocalJSX.ChatScreen & JSXBase.HTMLAttributes<HTMLChatScreenElement>;
             "chat-sidebar": LocalJSX.ChatSidebar & JSXBase.HTMLAttributes<HTMLChatSidebarElement>;
