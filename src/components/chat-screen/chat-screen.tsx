@@ -8,7 +8,8 @@ import { Component, h, Prop, Event, EventEmitter, State, Fragment, Watch } from 
 export class ChatScreen {
   @Prop() thread: any;
   @Prop() isBlankChat: boolean = false;
-  @Event() sendMessage: EventEmitter<{ text: string; ts: number }>;
+  @Prop() activeThread: string = '';
+  @Event() sendMessage: EventEmitter<{ text: string; ts: number; messages: any }>;
   @State() input = '';
   @State() bubbleInput = '';
   @State() inputType: string = 'number';
@@ -27,18 +28,36 @@ export class ChatScreen {
       this.chatMessages = [this.botMessages.welcome];
     }
   }
+  @Watch('thread')
+  handleThreadChange() {
+    if (this.thread) {
+      this.chatMessages = this.thread.messages?.length ? [...this.thread.messages] : [this.botMessages.welcome];
+    } else if (this.isBlankChat) {
+      this.chatMessages = [this.botMessages.welcome];
+    }
+  }
+  //   @Watch('activeThread')
+  //   handleThread() {
+  //     if (this.activeThread) {
+  //       this.chatMessages = this.thread?.messages;
+  //     }
+  //   }
 
   //   @Watch('thread')
   //   handleThreadChange() {
   //     if (this.thread) {
-  //       this.chatMessages = this.thread.messages || [this.botMessages.welcome];
+  //       // Set messages from the selected thread
+  //       this.chatMessages = this.thread.messages?.length ? [...this.thread.messages] : [this.botMessages.welcome];
+  //     } else if (this.isBlankChat) {
+  //       // If no thread selected, show blank chat
+  //       this.chatMessages = [this.botMessages.welcome];
   //     }
   //   }
 
   async componentWillLoad() {
     const res = await fetch('/assets/data.json');
     this.botMessages = await res.json();
-    this.chatMessages = this.thread.messages || [this.botMessages.welcome];
+    this.chatMessages = [this.botMessages.welcome];
   }
 
   handleOption(id: string, label: string) {
@@ -84,6 +103,7 @@ export class ChatScreen {
       this.sendMessage.emit({
         text: this.input,
         ts: Date.now(),
+        messages: this.chatMessages,
       });
       this.input = '';
       return;
@@ -95,6 +115,7 @@ export class ChatScreen {
       this.sendMessage.emit({
         text: this.input,
         ts: Date.now(),
+        messages: this.chatMessages,
       });
       this.input = '';
       return;
@@ -107,6 +128,7 @@ export class ChatScreen {
     this.sendMessage.emit({
       text: this.input,
       ts: Date.now(),
+      messages: this.chatMessages,
     });
     this.input = '';
   }
@@ -156,6 +178,7 @@ export class ChatScreen {
     this.sendMessage.emit({
       text: msg,
       ts: Date.now(),
+      messages: this.chatMessages,
     });
   }
   handleResult = (msg: string) => {
@@ -242,6 +265,8 @@ export class ChatScreen {
   }
 
   render() {
+    console.log('activeThread', this.activeThread);
+    console.log('this.thread?.messages', this.thread?.messages);
     return (
       <main class="chat-area">
         <div class="canvas">

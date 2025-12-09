@@ -19,6 +19,7 @@ export namespace Components {
         "msg": any;
     }
     interface ChatScreen {
+        "activeThread": string;
         "isBlankChat": boolean;
         "thread": any;
     }
@@ -88,7 +89,7 @@ declare global {
         new (): HTMLChatMessageElement;
     };
     interface HTMLChatScreenElementEventMap {
-        "sendMessage": { text: string; ts: number };
+        "sendMessage": { text: string; ts: number; messages: any };
         "showResult": boolean;
     }
     interface HTMLChatScreenElement extends Components.ChatScreen, HTMLStencilElement {
@@ -165,8 +166,9 @@ declare namespace LocalJSX {
         "onHandleOption"?: (event: ChatMessageCustomEvent<string>) => void;
     }
     interface ChatScreen {
+        "activeThread"?: string;
         "isBlankChat"?: boolean;
-        "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number }>) => void;
+        "onSendMessage"?: (event: ChatScreenCustomEvent<{ text: string; ts: number; messages: any }>) => void;
         "onShowResult"?: (event: ChatScreenCustomEvent<boolean>) => void;
         "thread"?: any;
     }

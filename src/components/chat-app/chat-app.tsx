@@ -40,8 +40,9 @@ export class ChatApp {
   createNewThread = () => {
     const newThread = {
       id: 't' + Date.now(),
-      title: 'New Analysis',
+      name: 'New Analysis',
       text: '',
+      messages: [],
       ts: Date.now(),
     };
 
@@ -55,7 +56,7 @@ export class ChatApp {
     this.isBlankChat = true;
     this.activeThreadId = '';
   }
-  handleSendMessage(msg: { text: string; ts: number }) {
+  handleSendMessage(msg: { text: string; ts: number; messages: any }) {
     console.log('msg-chat-message', msg);
     if (this.isBlankChat) {
       this.isBlankChat = false; // Reset blank chat flag after first message
@@ -70,6 +71,7 @@ export class ChatApp {
         id,
         name: 'New Analysis',
         text: '',
+        messages: [],
         ts: Date.now(),
       };
       this.data.threads?.unshift(thread);
@@ -83,12 +85,7 @@ export class ChatApp {
     }
 
     // 4. PUSH MESSAGE
-    thread.messages?.push({
-      id: 'm' + msg.ts,
-      from: 'user',
-      text: msg.text,
-      ts: msg.ts,
-    });
+    thread.messages = [...msg.messages];
 
     // 5. SAVE + UPDATE SIDEBAR
     saveData(this.data);
@@ -123,6 +120,7 @@ export class ChatApp {
           <chat-screen
             isBlankChat={this.isBlankChat}
             thread={this.activeThreadId ? this.data.threads.find(t => t.id === this.activeThreadId) : null}
+            activeThread={this.activeThreadId}
             onSendMessage={(ev: any) => this.handleSendMessage(ev.detail)}
             onShowResult={(e: any) => (this.showResultScreen = e.detail)}
           ></chat-screen>
