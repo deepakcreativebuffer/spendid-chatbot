@@ -1,6 +1,5 @@
-.scorecard {
+.scorecard, .neg-scorecard, .orange-scorecard {
   width: 100%;
-  background: linear-gradient(90deg, #6dd5b3, #47b1c6);
   border-radius: 16px;
   padding: 22px 26px;
   color: #ffffff;
@@ -8,6 +7,9 @@
   flex-direction: column;
   gap: 14px;
   box-sizing: border-box;
+}
+.scorecard {
+ background: linear-gradient(90deg, #6dd5b3, #47b1c6);
 }
 .neg-scorecard{
   background: linear-gradient(90deg, #DD322A, #AA231D);
