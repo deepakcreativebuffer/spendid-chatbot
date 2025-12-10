@@ -406,7 +406,7 @@ export class ChatScreen {
                         <div class="input-bubble">
                           <input
                             type={this.inputType === 'text' ? 'text' : 'number'}
-                            placeholder={this.inputType === 'text' ? 'Enter Area' : 'Enter Zip'}
+                            placeholder={this.inputType === 'text' ? 'Enter Area' : 'Enter ZIP code'}
                             onInput={(e: any) => this.validateZip(e)}
                             onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value, 'zip')}
                           />

@@ -9,6 +9,9 @@
   gap: 14px;
   box-sizing: border-box;
 }
+.scorecard.neg-scorecard{
+  background: linear-gradient(90deg, #DD322A, #AA231D);
+}
 
 .title {
   font-size: 16px;

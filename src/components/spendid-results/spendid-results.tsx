@@ -30,32 +30,32 @@ export class SpendidResults {
         youSaving: 6537,
         peerSaving: 3724,
         youDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Wants', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 3430, percentage: 24.5 },
+          { category: 'Wants', monthly: 3920, percentage: 28 },
+          { category: 'Finacial Goals', monthly: 6636, percentage: 47.4 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Wants', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 5460, percentage: 39 },
+          { category: 'Wants', monthly: 4004, percentage: 28.6 },
+          { category: 'Finacial Goals', monthly: 4521, percentage: 32.3 },
         ],
-        breakdown: { score: 90, needs: 45, wants: 35, savings: 20 },
+        breakdown: { score: 90, needs: 57.1, wants: 28.6, savings: 14.3 },
       },
       // Bad Score
       '14001': {
         score: 109.5,
         peerScore: 75.2,
-        youSaving: 1200,
-        peerSaving: 1000,
+        youSaving: 1107,
+        peerSaving: -179,
         youDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Wants', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 1653, percentage: 44.1 },
+          { category: 'Wants', monthly: 986, percentage: 26.3 },
+          { category: 'Finacial Goals', monthly: 1106, percentage: 29.5 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Wants', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 2456, percentage: 65.5 },
+          { category: 'Wants', monthly: 1256, percentage: 33.5 },
+          { category: 'Finacial Goals', monthly: 37, percentage: 1 },
         ],
         breakdown: { score: 50, needs: 55, wants: 30, savings: 15 },
       },
@@ -155,13 +155,16 @@ export class SpendidResults {
           <div class="breakdown-content">
             <div class="legend">
               <div class="legend-row">
-                <span class="dot gold"></span>Needs <strong>{this.breakdown.needs}%</strong>
+                <span class="dot green"></span>Needs 
+                {/* <strong>{this.breakdown.needs}%</strong> */}
               </div>
               <div class="legend-row">
-                <span class="dot blue"></span>Wants <strong>{this.breakdown.wants}%</strong>
+                <span class="dot blue"></span>Wants 
+                {/* <strong>{this.breakdown.wants}%</strong> */}
               </div>
               <div class="legend-row">
-                <span class="dot green"></span>Savings <strong>{this.breakdown.savings}%</strong>
+                <span class="dot gold"></span>Finacial Goals 
+                {/* <strong>{this.breakdown.savings}%</strong> */}
               </div>
             </div>
           </div>
@@ -170,9 +173,9 @@ export class SpendidResults {
         <section class="card insights-card">
           <div class="insights-title">💡 Key Insights</div>
           <ul>
-            <li>Your housing cost is within peer average</li>
-            <li>Your savings rate is excellent</li>
-            <li>Consider optimizing your discretionary spending to increase savings</li>
+            <li>Your housing cost looks comfortable for your area.</li>
+            <li>Your predicted savings ability is strong.</li>
+            <li>You may be able to increase savings further by adjusting discretionary spending.</li>
           </ul>
         </section>
       </div>
