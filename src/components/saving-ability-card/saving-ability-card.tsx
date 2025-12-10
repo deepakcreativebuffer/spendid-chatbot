@@ -11,8 +11,11 @@ export class SavingAbilityCard {
   @Prop() tag: string = '';
 
   render() {
+    const numericAmount = parseFloat(this.amount.replace(/[^0-9.-]/g, ''));
+
+    const scorecardClass = numericAmount < 0 ? 'scorecard neg-scorecard ' : 'scorecard';
     return (
-      <div class="scorecard">
+      <div class={scorecardClass}>
         <div class="title">{this.label}</div>
 
         <div class="row">
