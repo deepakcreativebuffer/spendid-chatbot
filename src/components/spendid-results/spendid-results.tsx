@@ -49,7 +49,7 @@ export class SpendidResults {
         peerScore: 16.7,
         youSaving: -1208,
         peerSaving: -1951,
-        grade: '',
+        grade: 'F',
         youDonut: [
           { category: 'Needs', monthly: 1995, percentage: 64.8 },
           { category: 'Wants', monthly: 785, percentage: 25.5 },
@@ -68,7 +68,7 @@ export class SpendidResults {
         peerScore: 81.5,
         youSaving: -574,
         peerSaving: 76,
-        grade: '',
+        grade: 'B',
         youDonut: [
           { category: 'Needs', monthly: 3750, percentage: 73.4 },
           { category: 'Food', monthly: 1359, percentage: 26.6 },
@@ -89,7 +89,8 @@ export class SpendidResults {
         score: 65,
         peerScore: 65,
         youSaving: 1200,
-        peerSaving: 1000,
+        peerSaving: 600,
+        grade: 'A+',
         youDonut: [
           { category: 'Needs', monthly: 1200, percentage: 50 },
           { category: 'Wants', monthly: 600, percentage: 30 },
