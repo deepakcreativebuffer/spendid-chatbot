@@ -20,24 +20,24 @@ export class SpendidResults {
     this.closeResult.emit(false);
   }
 
-  // Helper to map zip code to dummy data
+  // Helper dummy data
   getResultsByZip(zip: string) {
     const dataMap: Record<string, any> = {
-      //Good Score
+      // Good Score
       '35210': {
         score: 125.7,
         peerScore: 106.6,
         youSaving: 6537,
         peerSaving: 3724,
         youDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Wants', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Wants', monthly: 600, percentage: 50 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Wants', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Wants', monthly: 600, percentage: 50 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
         ],
         breakdown: { score: 90, needs: 45, wants: 35, savings: 20 },
       },
@@ -48,14 +48,14 @@ export class SpendidResults {
         youSaving: 1200,
         peerSaving: 1000,
         youDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Wants', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Wants', monthly: 600, percentage: 50 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Wants', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Wants', monthly: 600, percentage: 50 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
         ],
         breakdown: { score: 50, needs: 55, wants: 30, savings: 15 },
       },
@@ -66,14 +66,14 @@ export class SpendidResults {
         youSaving: 1200,
         peerSaving: 1000,
         youDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Wants', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Wants', monthly: 600, percentage: 50 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Food', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Food', monthly: 600, percentage: 50 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
         ],
         breakdown: { score: 65, needs: 50, wants: 30, savings: 20 },
       },
@@ -87,9 +87,9 @@ export class SpendidResults {
         youSaving: 1200,
         peerSaving: 1000,
         youDonut: [
-          { category: 'Needs', monthly: 1200 },
-          { category: 'Wants', monthly: 600 },
-          { category: 'Finacial Goals', monthly: 300 },
+          { category: 'Needs', monthly: 1200, percentage: 50 },
+          { category: 'Wants', monthly: 600, percentage: 30 },
+          { category: 'Finacial Goals', monthly: 300, percentage: 20 },
         ],
         peerDonut: [
           { category: 'Needs', monthly: 1200 },
@@ -135,11 +135,8 @@ export class SpendidResults {
 
         <section class="card savings-card">
           <div class="card-title">Monthly Savings Ability</div>
-
           <saving-ability-card amount={`$${this.youSaving}`} tag="You"></saving-ability-card>
-
           <br />
-
           <saving-ability-card amount={`$${this.peerSaving}`} tag="Peers"></saving-ability-card>
         </section>
 

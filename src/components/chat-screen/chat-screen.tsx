@@ -66,8 +66,10 @@ export class ChatScreen {
     if (id === 'nodebt') {
       this.chatMessages = [...this.chatMessages, this.botMessages.result];
     }
-
-    if (id === 'rent' || id === 'own' || id === 'yes' || id === 'no') {
+    if (id === 'own') {
+      this.chatMessages = [...this.chatMessages, this.botMessages.own, this.botMessages.monthlyRentInput];
+    }
+    if (id === 'rent' || id === 'yes' || id === 'no') {
       const lastBot = [...this.chatMessages].reverse().find(m => m.type === 'bot');
       if (lastBot?.next) {
         this.showMessageAndNext(lastBot.next);
@@ -85,7 +87,6 @@ export class ChatScreen {
     this.incomeSources = Array(num)
       .fill(0)
       .map(() => ({
-        occupation: '',
         frequency: '',
         amount: '',
         type: '',
@@ -483,7 +484,6 @@ export class ChatScreen {
 
                       {m.input && m.inputType === 'debt' && (
                         <div class="input-bubble debt-bubble">
-                          {/* STUDENT DEBT */}
                           <p class="input-label">Student Debt</p>
                           <input
                             type="number"
@@ -493,7 +493,6 @@ export class ChatScreen {
                             // onKeyDown={(e: any) => e.key === 'Enter' && this.submitDebtInputs()}
                           />
 
-                          {/* CREDIT CARD DEBT */}
                           <p class="input-label">Credit Card Debt</p>
 
                           <input
@@ -504,7 +503,6 @@ export class ChatScreen {
                             // onKeyDown={(e: any) => e.key === 'Enter' && this.submitDebtInputs()}
                           />
 
-                          {/* OTHER DEBT */}
                           <p class="input-label">Other Debt</p>
                           <input
                             type="number"
@@ -550,7 +548,7 @@ export class ChatScreen {
                             <div class="income-panel">
                               <p class="panel-subtitle">Source {index + 1}</p>
 
-                              <div class="panel-field">
+                              {/* <div class="panel-field">
                                 <input
                                   type="text"
                                   placeholder="Occupation"
@@ -560,7 +558,7 @@ export class ChatScreen {
                                     this.incomeSources = [...this.incomeSources];
                                   }}
                                 />
-                              </div>
+                              </div> */}
 
                               <div class="panel-field dropdown">
                                 <select
@@ -569,10 +567,13 @@ export class ChatScreen {
                                     this.incomeSources = [...this.incomeSources];
                                   }}
                                 >
-                                  <option value="">Pay Frequency</option>
-                                  <option value="weekly">Weekly</option>
-                                  <option value="biweekly">Bi-Weekly</option>
+                                  <option value="">Weekly</option>
+                                  <option value="weekly">Every 2 Weeks</option>
+                                  <option value="biweekly">Twice per Month</option>
                                   <option value="monthly">Monthly</option>
+                                  <option value="monthly">Quarterly</option>
+                                  <option value="monthly">Semi-Anually</option>
+                                  <option value="monthly">Anually</option>
                                 </select>
                                 <span class="caret"></span>
                               </div>
@@ -596,10 +597,8 @@ export class ChatScreen {
                                     this.incomeSources = [...this.incomeSources];
                                   }}
                                 >
-                                  <option value="">Income Type</option>
-                                  <option value="salary">Salary</option>
-                                  <option value="bonus">Bonus</option>
-                                  <option value="commission">Commission</option>
+                                  <option value="">Gross</option>
+                                  <option value="salary">Net "Take Home"</option>
                                 </select>
                                 <span class="caret"></span>
                               </div>
@@ -607,15 +606,13 @@ export class ChatScreen {
                           ))}
 
                           <button
-                            class={`panel-button ${
-                              this.incomeSources.some(s => !s.occupation?.trim() || !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim()) ? 'disabled-btn' : ''
-                            }`}
-                            disabled={this.incomeSources.some(s => !s.occupation?.trim() || !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim())}
+                            class={`panel-button ${this.incomeSources.some(s => !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim()) ? 'disabled-btn' : ''}`}
+                            disabled={this.incomeSources.some(s => !s.frequency?.trim() || !s.amount?.toString().trim() || !s.type?.trim())}
                             onClick={() => {
                               //   const output = this.incomeSources
                               //     .map((src, i) => `Income Source ${i + 1}: ${src.occupation} | ${src.frequency} | ${src.amount} | ${src.type}`)
                               //     .join('\n');
-                              const output = this.incomeSources.map((src, i) => `Income Source ${i + 1}: ${src.amount}`).join('\n');
+                              const output = this.incomeSources.map((src, i) => `Income Source ${i + 1}: $ ${src.amount}`).join('\n');
 
                               this.handleInputSubmit(output, m.replyType);
                             }}

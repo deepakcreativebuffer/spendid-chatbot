@@ -81,7 +81,7 @@ export class ChatSidebar {
               this.handleBack();
             }}
           >
-            + New Analysis
+            + Start a New Scenario
           </button>
         </div>
       </aside>

@@ -22,15 +22,12 @@ export class SpeedometerGauge {
   createSpeedChart() {
     am4core.useTheme(am4themes_animated);
 
-    /** FIX 1 — Force HTMLElement type */
     const chartContainer = this.hostEl.querySelector('.chart-container') as HTMLElement;
 
-    /** FIX 2 — Create GaugeChart safely */
     const chart = am4core.create(chartContainer, am4charts.GaugeChart) as am4charts.GaugeChart;
     chart.innerRadius = am4core.percent(64);
     chart.startAngle = -180;
     chart.endAngle = 0;
-    /** FIX 3 — Force correct ValueAxis type */
     const axis = chart.xAxes.push(new am4charts.ValueAxis() as am4charts.ValueAxis<am4charts.AxisRendererCircular>);
 
     axis.min = 0;
@@ -40,7 +37,6 @@ export class SpeedometerGauge {
     axis.renderer.labels.template.fill = am4core.color('#fff');
     axis.renderer.minGridDistance = 500;
 
-    /** Secondary axis with safe casting */
     const axis2 = chart.xAxes.push(new am4charts.ValueAxis() as am4charts.ValueAxis<am4charts.AxisRendererCircular>);
 
     axis2.min = 0;
