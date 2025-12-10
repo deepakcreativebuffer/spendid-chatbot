@@ -15,6 +15,7 @@ export class SpendidResults {
   youDonut: any;
   peerDonut: any;
   breakdown: any;
+  grade: any;
 
   handleBack() {
     this.closeResult.emit(false);
@@ -29,6 +30,7 @@ export class SpendidResults {
         peerScore: 106.6,
         youSaving: 6537,
         peerSaving: 3724,
+        grade: 'A+',
         youDonut: [
           { category: 'Needs', monthly: 3430, percentage: 24.5 },
           { category: 'Wants', monthly: 3920, percentage: 28 },
@@ -43,37 +45,39 @@ export class SpendidResults {
       },
       // Bad Score
       '14001': {
-        score: 109.5,
-        peerScore: 75.2,
-        youSaving: 1107,
-        peerSaving: -179,
+        score: 27.8,
+        peerScore: 16.7,
+        youSaving: -1208,
+        peerSaving: -1951,
+        grade: '',
         youDonut: [
-          { category: 'Needs', monthly: 1653, percentage: 44.1 },
-          { category: 'Wants', monthly: 986, percentage: 26.3 },
-          { category: 'Finacial Goals', monthly: 1106, percentage: 29.5 },
+          { category: 'Needs', monthly: 1995, percentage: 64.8 },
+          { category: 'Wants', monthly: 785, percentage: 25.5 },
+          { category: 'Finacial Goals', monthly: 298, percentage: 9.7 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 2456, percentage: 65.5 },
-          { category: 'Wants', monthly: 1256, percentage: 33.5 },
-          { category: 'Finacial Goals', monthly: 37, percentage: 1 },
+          { category: 'Needs', monthly: 3363, percentage: 109.2 },
+          { category: 'Wants', monthly: 1493, percentage: 48.5 },
+          { category: 'Finacial Goals', monthly: 1, percentage: 1 },
         ],
         breakdown: { score: 50, needs: 55, wants: 30, savings: 15 },
       },
       // Average
-      '15502': {
-        score: 70,
-        peerScore: 68,
-        youSaving: 1200,
-        peerSaving: 1000,
+      '13045': {
+        score: 68.8,
+        peerScore: 81.5,
+        youSaving: -574,
+        peerSaving: 76,
+        grade: '',
         youDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Wants', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 3750, percentage: 73.4 },
+          { category: 'Food', monthly: 1359, percentage: 26.6 },
+          { category: 'Finacial Goals', monthly: 1, percentage: 1 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Food', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 3219, percentage: 63 },
+          { category: 'Wants', monthly: 1522, percentage: 29.8 },
+          { category: 'Finacial Goals', monthly: 367, percentage: 7.2 },
         ],
         breakdown: { score: 65, needs: 50, wants: 30, savings: 20 },
       },
@@ -113,6 +117,7 @@ export class SpendidResults {
     this.youDonut = results.youDonut;
     this.peerDonut = results.peerDonut;
     this.breakdown = results.breakdown;
+    this.grade = results.grade;
   }
   render() {
     console.log('thred', this.thread);
@@ -128,7 +133,7 @@ export class SpendidResults {
         <section class="card score-card">
           <div class="card-left">
             <div class="card-title">Budget Health Score</div>
-            <budget-score-card score={this.score} peerScore={this.peerScore} grade="A+"></budget-score-card>
+            <budget-score-card score={this.score} peerScore={this.peerScore} grade={this.grade}></budget-score-card>
           </div>
         </section>
 
@@ -149,21 +154,21 @@ export class SpendidResults {
             </div>
             <div class="pie-chart-you">
               <pie-chart data={this.peerDonut} type="$" dark={false}></pie-chart>
-              <div class="card-title">Yours Peer</div>
+              <div class="card-title">Yours Peers</div>
             </div>
           </div>
           <div class="breakdown-content">
             <div class="legend">
               <div class="legend-row">
-                <span class="dot green"></span>Needs 
+                <span class="dot green"></span>Needs
                 {/* <strong>{this.breakdown.needs}%</strong> */}
               </div>
               <div class="legend-row">
-                <span class="dot blue"></span>Wants 
+                <span class="dot blue"></span>Wants
                 {/* <strong>{this.breakdown.wants}%</strong> */}
               </div>
               <div class="legend-row">
-                <span class="dot gold"></span>Finacial Goals 
+                <span class="dot gold"></span>Finacial Goals
                 {/* <strong>{this.breakdown.savings}%</strong> */}
               </div>
             </div>

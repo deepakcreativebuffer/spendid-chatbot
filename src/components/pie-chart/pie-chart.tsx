@@ -87,7 +87,7 @@ export class PieChartComponent {
     label.verticalCenter = 'middle';
     label.fontSize = 22;
     label.fill = am4core.color(this.dark ? '#fff' : '#000');
-    label.text = this.type === '$' ? '${values.value.sum}' : '';
+    // label.text = this.type === '$' ? '${values.value.sum}' : '';
 
     this.chart = chart;
   }
