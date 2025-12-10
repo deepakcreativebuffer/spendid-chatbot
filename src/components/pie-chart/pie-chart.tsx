@@ -60,12 +60,9 @@ export class PieChartComponent {
     series.dataFields.value = 'monthly';
     series.dataFields.category = 'category';
 
-    /** tooltip logic */
-    if (this.type !== '$') {
-      series.slices.template.tooltipText = `{category}: {value}%\n$ {dol}`;
-    } else {
-      series.slices.template.tooltipText = '{category}: ${value}';
-    }
+    /** tooltip */
+    series.slices.template.tooltipText =
+      this.type !== '$' ? "{category}: $ {value}\n {value.percent.formatNumber('#.0')}%" : "{category}: {value.percent.formatNumber('#.0')}%\n ${value}";
 
     /** disable outside ticks/labels */
     series.labels.template.disabled = true;

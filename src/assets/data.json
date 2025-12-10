@@ -2,17 +2,17 @@
   "threads": [],
   "welcome": {
     "type": "bot",
-    "message": "Hi! I’m the SPENDiD Budget Assistant 👋\n\nI’ll help you understand your spending habits and compare them with people like you.\nBefore we start, do you want to continue?",
+    "message": "Hi! I’m the SPENDiD Budget Assistant 👋\n\nI help you see whether your future budget will work in real life — based on your income,location, and typical spending for people like you. \nWould you like to continue?",
     "options": [
-      { "id": "begin", "label": "Yes, let’s begin" },
-      { "id": "not_now", "label": "Not now" }
+      { "id": "begin", "label": "Yes, let’s start" },
+      { "id": "not_now", "label": "Maybe later" }
     ],
     "next": "ask_location"
   },
 
   "ask_location": {
     "type": "bot",
-    "message": "Location\nGreat! First, what's your zip code or Area?"
+    "message": "Great! To build your scenario, I’ll start with your location.\nWhat’s your ZIP code or city?"
   },
 
   "zip_input": {
@@ -28,13 +28,13 @@
   "house_hold": {
     "type": "bot",
     "quesType": "household",
-    "message": "How many people live in your household (excluding roommates who pay their own bills)?",
+    "message": "How many people share your household budget with you? (Exclude roommates who pay their own bills.)",
     "next": "house_hold_age"
   },
 
   "house_hold_age": {
     "type": "bot",
-    "message": "Please enter the age of each household member",
+    "message": "Great — now tell me the age of each person in your household.\nThis helps estimate costs like insurance and child-care if needed.",
     "show_with_next": true,
     "next": "house_hold_input"
   },
@@ -51,13 +51,13 @@
   "income": {
     "type": "bot",
     "quesType": "income",
-    "message": "💰 How many sources of income in your household?",
+    "message": "How many people in your household earn income? Count only the people you listed above.",
     "next": "income_source"
   },
 
   "income_source": {
     "type": "bot",
-    "message": "Please enter the income of each household member",
+    "message": "Great — let’s add your income. If you have more than one income source, we’ll include those too.",
     "show_with_next": true,
     "next": "income_source_input"
   },
@@ -72,7 +72,7 @@
 
   "rent": {
     "type": "bot",
-    "message": "Do you rent or own your home?",
+    "message": "Do you rent your home or own it? (If you live with parents, family, or student housing, choose “Rent.”)",
     "options": [
       { "id": "rent", "label": "Rent" },
       { "id": "own", "label": "Own" }
@@ -82,39 +82,36 @@
 
   "monthlyRent": {
     "type": "bot",
-    "message": "What is your monthly rent/mortgage payment?",
+    "message": "What is your monthly rent? If you’re not sure, I can estimate it based on your location.",
     "show_with_next": true,
     "next": "monthlyRentInput"
   },
 
+  "own": {
+    "type": "bot",
+    "message": "What is your monthly mortgage payment?(Don’t include utilities.)",
+    "show_with_next": true,
+    "next": "monthlyRentInput"
+  },
   "monthlyRentInput": {
     "type": "bot",
-    "placeholder": "Enter Monthly Rent",
+    "placeholder": "Enter Amount",
     "input": true,
     "inputType": "rent",
-    "next": "propertyTaxes",
+    "next": "vehicleRent",
     "replyType": "rent"
-  },
-  "propertyTaxes": {
-    "type": "bot",
-    "message": "Does this include property taxes and homeowner insurance?",
-    "options": [
-      { "id": "yes", "label": "Yes" },
-      { "id": "no", "label": "No" }
-    ],
-    "next": "vehicleRent"
   },
 
   "vehicleRent": {
     "type": "bot",
-    "message": "What's your total monthly vehicle payment?(For all vehicles combined)",
+    "message": "Do you have a monthly vehicle payment? If yes, enter the total amount for all vehicles.If not, enter 0.",
     "show_with_next": true,
     "next": "vehicleRentInput"
   },
 
   "vehicleRentInput": {
     "type": "bot",
-    "placeholder": "Enter Vechicle Rent",
+    "placeholder": "Enter Amount or 0”",
     "input": true,
     "inputType": "rent",
     "next": "insurance",
@@ -122,14 +119,14 @@
   },
   "insurance": {
     "type": "bot",
-    "message": "What's your monthly health insurance premium?",
+    "message": "Do you pay anything out-of-pocket for health insurance each month? If your coverage is through a parent/guardian or already deducted from your paycheck,enter 0.",
     "show_with_next": true,
     "next": "insuranceInput"
   },
 
   "insuranceInput": {
     "type": "bot",
-    "placeholder": "Enter Insurance Amount",
+    "placeholder": "Enter Amount",
     "input": true,
     "inputType": "rent",
     "next": "payment",
@@ -137,7 +134,7 @@
   },
   "payment": {
     "type": "bot",
-    "message": "Do you have any monthly debt payments?",
+    "message": "Do you have any other monthly debt payments? For example: student loans, credit cards, or other loans.",
     "options": [
       { "id": "yes", "label": "Yes" },
       { "id": "nodebt", "label": "No" }
@@ -146,7 +143,7 @@
   },
   "paymentDebt": {
     "type": "bot",
-    "message": "Enter your monthly debt payments:",
+    "message": "Enter your monthly debt payments:(If none apply, enter 0.)",
     "show_with_next": true,
     "next": "paymentDebtInput"
   },
@@ -162,7 +159,7 @@
 
   "result": {
     "type": "bot",
-    "message": "Result",
+    "message": "Your SPENDiD Results",
     "resultButton": true,
     "next": "resultPage"
   },
