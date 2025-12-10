@@ -140,7 +140,7 @@
     "message": "Do you have any monthly debt payments?",
     "options": [
       { "id": "yes", "label": "Yes" },
-      { "id": "no", "label": "No" }
+      { "id": "nodebt", "label": "No" }
     ],
     "next": "paymentDebt"
   },
@@ -155,7 +155,7 @@
     "type": "bot",
     "placeholder": "Enter Payment Debt",
     "input": true,
-    "inputType": "rent",
+    "inputType": "debt",
     "next": "result",
     "replyType": "payment"
   },

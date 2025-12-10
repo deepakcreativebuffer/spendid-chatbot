@@ -127,6 +127,10 @@ export class ChatApp {
               thread={this.activeThreadId ? this.data.threads.find(t => t.id === this.activeThreadId) : null}
             ></spendid-results>
           )}
+          {/* <spendid-results
+            onCloseResult={() => (this.showResultScreen = false)}
+            thread={this.activeThreadId ? this.data.threads.find(t => t.id === this.activeThreadId) : null}
+          ></spendid-results> */}
         </div>
       </div>
     );

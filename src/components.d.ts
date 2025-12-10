@@ -9,6 +9,7 @@ export namespace Components {
     interface AppRoot {
     }
     interface BudgetScoreCard {
+        "grade": string;
         "peerScore": number;
         "score": number;
     }
@@ -30,6 +31,28 @@ export namespace Components {
     }
     interface MonthlySavings {
         "data": { label: string; value: number; color: string }[];
+    }
+    interface PieChart {
+        /**
+          * dark/light mode
+         */
+        "dark": boolean;
+        /**
+          * Array of items like: { category: string; monthly: number; dol?: number }
+         */
+        "data": any[];
+        /**
+          * "$" or "%"
+         */
+        "type": string;
+    }
+    interface SavingAbilityCard {
+        "amount": string;
+        "label": string;
+        "tag": string;
+    }
+    interface SpeedometerGauge {
+        "value": number;
     }
     interface SpendidGauge {
         "max": number;
@@ -118,6 +141,24 @@ declare global {
         prototype: HTMLMonthlySavingsElement;
         new (): HTMLMonthlySavingsElement;
     };
+    interface HTMLPieChartElement extends Components.PieChart, HTMLStencilElement {
+    }
+    var HTMLPieChartElement: {
+        prototype: HTMLPieChartElement;
+        new (): HTMLPieChartElement;
+    };
+    interface HTMLSavingAbilityCardElement extends Components.SavingAbilityCard, HTMLStencilElement {
+    }
+    var HTMLSavingAbilityCardElement: {
+        prototype: HTMLSavingAbilityCardElement;
+        new (): HTMLSavingAbilityCardElement;
+    };
+    interface HTMLSpeedometerGaugeElement extends Components.SpeedometerGauge, HTMLStencilElement {
+    }
+    var HTMLSpeedometerGaugeElement: {
+        prototype: HTMLSpeedometerGaugeElement;
+        new (): HTMLSpeedometerGaugeElement;
+    };
     interface HTMLSpendidGaugeElement extends Components.SpendidGauge, HTMLStencilElement {
     }
     var HTMLSpendidGaugeElement: {
@@ -149,6 +190,9 @@ declare global {
         "chat-sidebar": HTMLChatSidebarElement;
         "circular-progress": HTMLCircularProgressElement;
         "monthly-savings": HTMLMonthlySavingsElement;
+        "pie-chart": HTMLPieChartElement;
+        "saving-ability-card": HTMLSavingAbilityCardElement;
+        "speedometer-gauge": HTMLSpeedometerGaugeElement;
         "spendid-gauge": HTMLSpendidGaugeElement;
         "spendid-results": HTMLSpendidResultsElement;
     }
@@ -157,6 +201,7 @@ declare namespace LocalJSX {
     interface AppRoot {
     }
     interface BudgetScoreCard {
+        "grade"?: string;
         "peerScore"?: number;
         "score"?: number;
     }
@@ -183,6 +228,28 @@ declare namespace LocalJSX {
     interface MonthlySavings {
         "data"?: { label: string; value: number; color: string }[];
     }
+    interface PieChart {
+        /**
+          * dark/light mode
+         */
+        "dark"?: boolean;
+        /**
+          * Array of items like: { category: string; monthly: number; dol?: number }
+         */
+        "data"?: any[];
+        /**
+          * "$" or "%"
+         */
+        "type"?: string;
+    }
+    interface SavingAbilityCard {
+        "amount"?: string;
+        "label"?: string;
+        "tag"?: string;
+    }
+    interface SpeedometerGauge {
+        "value"?: number;
+    }
     interface SpendidGauge {
         "max"?: number;
         "value"?: number;
@@ -199,6 +266,9 @@ declare namespace LocalJSX {
         "chat-sidebar": ChatSidebar;
         "circular-progress": CircularProgress;
         "monthly-savings": MonthlySavings;
+        "pie-chart": PieChart;
+        "saving-ability-card": SavingAbilityCard;
+        "speedometer-gauge": SpeedometerGauge;
         "spendid-gauge": SpendidGauge;
         "spendid-results": SpendidResults;
     }
@@ -214,6 +284,9 @@ declare module "@stencil/core" {
             "chat-sidebar": LocalJSX.ChatSidebar & JSXBase.HTMLAttributes<HTMLChatSidebarElement>;
             "circular-progress": LocalJSX.CircularProgress & JSXBase.HTMLAttributes<HTMLCircularProgressElement>;
             "monthly-savings": LocalJSX.MonthlySavings & JSXBase.HTMLAttributes<HTMLMonthlySavingsElement>;
+            "pie-chart": LocalJSX.PieChart & JSXBase.HTMLAttributes<HTMLPieChartElement>;
+            "saving-ability-card": LocalJSX.SavingAbilityCard & JSXBase.HTMLAttributes<HTMLSavingAbilityCardElement>;
+            "speedometer-gauge": LocalJSX.SpeedometerGauge & JSXBase.HTMLAttributes<HTMLSpeedometerGaugeElement>;
             "spendid-gauge": LocalJSX.SpendidGauge & JSXBase.HTMLAttributes<HTMLSpendidGaugeElement>;
             "spendid-results": LocalJSX.SpendidResults & JSXBase.HTMLAttributes<HTMLSpendidResultsElement>;
         }

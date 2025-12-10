@@ -1,81 +1,70 @@
-.card-container {
+.card {
   width: 100%;
-  max-width: 450px;
-  background: linear-gradient(135deg, #6a50ff, #441fbf);
-  padding: 28px;
-  border-radius: 22px;
-  color: white;
-  font-family: 'Inter', sans-serif;
-  box-sizing: border-box;
+  background: linear-gradient(90deg, #6c3dc7, #5633cc, #3e30d1);
+  padding: 20px 25px;
+  border-radius: 16px;
+  color: #fff;
+  font-family: sans-serif;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.help-icon {
-  border-radius: 50%;
-  border: 2px solid white;
-  padding: 2px 8px;
-  font-size: 16px;
-}
-
-.content-box {
+.title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.gauge-box {
-  position: relative;
-}
-
-.gauge {
-  width: 150px;
-  height: 150px;
-}
-
-.axis-labels {
-  width: 150px;
-  display: flex;
-  justify-content: space-between;
-  margin-top: -10px;
-  font-size: 14px;
-}
-
-.peer-box {
-  text-align: right;
-  margin-right: 10px;
-}
-
-.peer-title {
-  font-size: 18px;
+.title {
+  font-size: 20px;
   font-weight: 600;
 }
 
-.peer-value {
-  font-size: 26px;
+.icon {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.content-row {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.big-score {
+  font-size: 42px;
   font-weight: 700;
   margin-top: 5px;
+  color: #2fa58c;
 }
 
-.bottom-box {
-  margin-top: 25px;
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.grade-circle {
+  background: #daf9ff;
+  color: #2fa58c;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
 }
 
-.wave-icon {
-  width: 55px;
-  opacity: 0.8;
-}
-
-.score-value {
-  font-size: 58px;
-  font-weight: 700;
+.peer {
+  margin-top: 15px;
+  font-size: 16px;
 }
