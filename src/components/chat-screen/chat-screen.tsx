@@ -31,6 +31,7 @@ export class ChatScreen {
   @State() studentDebt: string = '';
   @State() creditDebt: string = '';
   @State() otherDebt: string = '';
+  @State() dynamicPlaceholder: string = 'Type Here';
   botMessages: any = {};
   private messagesWrap!: HTMLElement;
   @Watch('isBlankChat')
@@ -61,6 +62,10 @@ export class ChatScreen {
 
     if (id === 'begin') {
       this.chatMessages = [...this.chatMessages, this.botMessages.ask_location, this.botMessages.zip_input];
+    }
+
+    if (id === 'not_now') {
+      this.chatMessages = [...this.chatMessages, this.botMessages.maybelater];
     }
 
     if (id === 'nodebt') {
@@ -178,6 +183,7 @@ export class ChatScreen {
     this.studentDebt = '';
     this.creditDebt = '';
     this.otherDebt = '';
+    this.dynamicPlaceholder = 'Type Here';
   }
 
   showMessageAndNext(id: string) {
@@ -195,6 +201,11 @@ export class ChatScreen {
       this.showMessageAndNext(msg.next);
       return;
     }
+    if (msg.placeholderDynamic) {
+      this.dynamicPlaceholder = msg.placeholderDynamic;
+    } else {
+      this.dynamicPlaceholder = 'Type Here';
+    }
 
     if (!msg.input && !msg.options && !msg.show_with_next) return;
 
@@ -206,8 +217,7 @@ export class ChatScreen {
   get disableMainSend() {
     const last = this.chatMessages[this.chatMessages.length - 1];
 
-    // If last message is bot AND has its own input bubble, disable bottom send
-    if (last?.type === 'bot' && last?.input) {
+    if (last?.type === 'bot' && (last?.input || last?.options?.length > 0)) {
       return true;
     }
 
@@ -353,11 +363,8 @@ export class ChatScreen {
                         </div>
                       ) : null}
 
-                      {/* INCOME UI */}
                       {isIncomeMessage ? (
                         <div class="age-container">
-                          {' '}
-                          {/* same style */}
                           {incomeItems.map(item => (
                             <div class="age-pill">
                               <span class="label">{item.label} :</span>
@@ -369,8 +376,6 @@ export class ChatScreen {
 
                       {isDebt ? (
                         <div class="age-container">
-                          {' '}
-                          {/* same style */}
                           {debtItem.map(item => (
                             <div class="age-pill">
                               <span class="label">{item.label} :</span>
@@ -384,6 +389,7 @@ export class ChatScreen {
                         !isAgeMessage &&
                         !isIncomeMessage &&
                         !isDebt && <p>$ {m.message}</p>}
+
                       {/* NORMAL MESSAGE */}
                       {!isAgeMessage &&
                         !isIncomeMessage &&
@@ -567,13 +573,14 @@ export class ChatScreen {
                                     this.incomeSources = [...this.incomeSources];
                                   }}
                                 >
-                                  <option value="">Weekly</option>
-                                  <option value="weekly">Every 2 Weeks</option>
-                                  <option value="biweekly">Twice per Month</option>
-                                  <option value="monthly">Monthly</option>
-                                  <option value="monthly">Quarterly</option>
-                                  <option value="monthly">Semi-Anually</option>
-                                  <option value="monthly">Anually</option>
+                                  <option value="">Select Frequency</option>
+                                  <option value="Weekly">Weekly</option>
+                                  <option value="Every 2 Weeks">Every 2 Weeks</option>
+                                  <option value="Twice per Month">Twice per Month</option>
+                                  <option value="Monthly">Monthly</option>
+                                  <option value="Quarterly">Quarterly</option>
+                                  <option value="Semi-Anually">Semi-Anually</option>
+                                  <option value="Anually">Anually</option>
                                 </select>
                                 <span class="caret"></span>
                               </div>
@@ -597,8 +604,9 @@ export class ChatScreen {
                                     this.incomeSources = [...this.incomeSources];
                                   }}
                                 >
-                                  <option value="">Gross</option>
-                                  <option value="salary">Net "Take Home"</option>
+                                  <option value="">Select Type</option>
+                                  <option value="Gross">Gross</option>
+                                  <option value="Net">Net "Take Home"</option>
                                 </select>
                                 <span class="caret"></span>
                               </div>
@@ -634,7 +642,7 @@ export class ChatScreen {
 
           <div class="composer-wrap">
             <div class="composer-box">
-              <input value={this.input} onInput={(e: any) => (this.input = e.target.value)} placeholder="Type Here" />
+              <input value={this.input} onInput={(e: any) => (this.input = e.target.value)} placeholder={this.dynamicPlaceholder} />
 
               <button
                 class={`send ${this.disableMainSend ? 'disabled-btn' : ''}`}
