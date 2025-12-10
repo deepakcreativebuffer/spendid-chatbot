@@ -8,7 +8,7 @@ import { Component, Prop, h } from '@stencil/core';
 export class BudgetScoreCard {
   @Prop() score: number = 0;
   @Prop() peerScore: number = 0;
-  @Prop() grade: string = 'A+';
+  @Prop() grade: string = '';
 
   render() {
     return (
@@ -24,7 +24,7 @@ export class BudgetScoreCard {
           </div>
 
           <div class="right">
-            <div class="grade-circle">{this.grade}</div>
+            {this.grade && <div class="grade-circle">{this.grade}</div>}
             <div class="peer">Peer's Score = {this.peerScore}</div>
           </div>
         </div>

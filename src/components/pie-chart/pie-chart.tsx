@@ -59,6 +59,9 @@ export class PieChartComponent {
     const series = chart.series.push(new am4charts.PieSeries());
     series.dataFields.value = 'monthly';
     series.dataFields.category = 'category';
+    const hover = series.slices.template.states.getKey('hover');
+    hover.properties.scale = 1;
+    hover.properties.shiftRadius = 0;
 
     /** tooltip */
     series.slices.template.tooltipText =
@@ -87,7 +90,7 @@ export class PieChartComponent {
     label.verticalCenter = 'middle';
     label.fontSize = 22;
     label.fill = am4core.color(this.dark ? '#fff' : '#000');
-    label.text = this.type === '$' ? '${values.value.sum}' : '';
+    // label.text = this.type === '$' ? '${values.value.sum}' : '';
 
     this.chart = chart;
   }
