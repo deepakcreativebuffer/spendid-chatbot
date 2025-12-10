@@ -135,4 +135,7 @@ chat-sidebar {
   .hamburger {
     display: flex;
   }
+  .header-box {
+    font-size: 16px;
+}
 }

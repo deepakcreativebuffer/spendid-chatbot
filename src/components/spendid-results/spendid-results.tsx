@@ -119,11 +119,10 @@ export class SpendidResults {
     return (
       <div class="spendid-container">
         <div class="header-row">
+          <div class="header-box">✨ Your SPENDiD Results ✨</div>
           <button class="back-btn" onClick={() => this.handleBack()}>
             Close
           </button>
-
-          <div class="header-box">✨ Your SPENDiD Results ✨</div>
         </div>
 
         <section class="card score-card">
