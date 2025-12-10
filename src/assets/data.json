@@ -10,6 +10,11 @@
     "next": "ask_location"
   },
 
+  "maybelater": {
+    "type": "bot",
+    "message": "Sure, I’m here whenever you wish to proceed."
+  },
+
   "ask_location": {
     "type": "bot",
     "message": "Great! To build your scenario, I’ll start with your location.\nWhat’s your ZIP code or city?"
@@ -29,6 +34,7 @@
     "type": "bot",
     "quesType": "household",
     "message": "How many people share your household budget with you? (Exclude roommates who pay their own bills.)",
+    "placeholderDynamic": "Number of household members",
     "next": "house_hold_age"
   },
 
@@ -52,7 +58,8 @@
     "type": "bot",
     "quesType": "income",
     "message": "How many people in your household earn income? Count only the people you listed above.",
-    "next": "income_source"
+    "next": "income_source",
+    "placeholderDynamic": "Enter number of income earners"
   },
 
   "income_source": {
