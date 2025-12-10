@@ -22,7 +22,6 @@ export class ChatApp {
     this.data = await loadInitialData();
 
     if (!this.data.threads?.length) {
-      console.log('asdasdtest>>>>>>>>>');
       this.createNewThread();
     }
 
@@ -55,7 +54,7 @@ export class ChatApp {
     this.isBlankChat = true;
     this.activeThreadId = '';
   }
-  handleSendMessage(msg: { text: string; ts: number; messages: any }) {
+  handleSendMessage(msg: { text: string; ts: number; messages: any; replyType: string }) {
     console.log('msg-chat-message', msg);
     if (this.isBlankChat) {
       this.isBlankChat = false;
@@ -99,7 +98,6 @@ export class ChatApp {
     console.log('active', active);
     return (
       <div class="app-frame">
-        {/* Hamburger for mobile */}
         {!this.showSidebar && this.windowWidth < 768 && (
           <button class="hamburger" onClick={() => this.toggleSidebar()}>
             &#9776;
@@ -123,7 +121,16 @@ export class ChatApp {
             onShowResult={(e: any) => (this.showResultScreen = e.detail)}
           ></chat-screen>
 
-          {this.showResultScreen && <spendid-results onCloseResult={() => (this.showResultScreen = false)}></spendid-results>}
+          {this.showResultScreen && active && (
+            <spendid-results
+              onCloseResult={() => (this.showResultScreen = false)}
+              thread={this.activeThreadId ? this.data.threads.find(t => t.id === this.activeThreadId) : null}
+            ></spendid-results>
+          )}
+          {/* <spendid-results
+            onCloseResult={() => (this.showResultScreen = false)}
+            thread={this.activeThreadId ? this.data.threads.find(t => t.id === this.activeThreadId) : null}
+          ></spendid-results> */}
         </div>
       </div>
     );

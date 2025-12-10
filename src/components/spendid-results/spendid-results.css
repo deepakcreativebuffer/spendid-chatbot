@@ -305,3 +305,10 @@
   font-weight: 700;
   color: #0d1b2a;
 }
+.pie-chart-you {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,33 @@
+.scorecard {
+  width: 100%;
+  background: linear-gradient(90deg, #6dd5b3, #47b1c6);
+  border-radius: 16px;
+  padding: 22px 26px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.amount {
+  font-size: 38px;
+  font-weight: 700;
+}
+
+.tag {
+  font-size: 22px;
+  font-weight: 700;
+}

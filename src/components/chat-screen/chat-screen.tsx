@@ -1,5 +1,10 @@
 import { Component, h, Prop, Event, EventEmitter, State, Fragment, Watch } from '@stencil/core';
-
+interface ChatMessage {
+  type: string;
+  message: string;
+  replyType?: string;
+  [key: string]: any;
+}
 @Component({
   tag: 'chat-screen',
   styleUrl: 'chat-screen.css',
@@ -9,11 +14,11 @@ export class ChatScreen {
   @Prop() thread: any;
   @Prop() isBlankChat: boolean = false;
   @Prop() activeThread: string = '';
-  @Event() sendMessage: EventEmitter<{ text: string; ts: number; messages: any }>;
+  @Event() sendMessage: EventEmitter<{ text: string; ts: number; messages: ChatMessage[] }>;
   @State() input = '';
   @State() bubbleInput = '';
   @State() inputType: string = 'number';
-  @State() chatMessages: any[] = [];
+  @State() chatMessages: ChatMessage[] = [];
   @State() incomeOccupation = '';
   @State() incomeFrequency = '';
   @State() incomeAmount = '';
@@ -23,6 +28,9 @@ export class ChatScreen {
   @State() dynamicValues: string[] = [];
   @Event() showResult: EventEmitter<boolean>;
   @State() incomeSources: any[] = [];
+  @State() studentDebt: string = '';
+  @State() creditDebt: string = '';
+  @State() otherDebt: string = '';
   botMessages: any = {};
   private messagesWrap!: HTMLElement;
   @Watch('isBlankChat')
@@ -55,8 +63,9 @@ export class ChatScreen {
       this.chatMessages = [...this.chatMessages, this.botMessages.ask_location, this.botMessages.zip_input];
     }
 
-    // if (id === 'enter_city') {
-    // }
+    if (id === 'nodebt') {
+      this.chatMessages = [...this.chatMessages, this.botMessages.result];
+    }
 
     if (id === 'rent' || id === 'own' || id === 'yes' || id === 'no') {
       const lastBot = [...this.chatMessages].reverse().find(m => m.type === 'bot');
@@ -87,7 +96,14 @@ export class ChatScreen {
     if (!this.input.trim()) return;
     const lastBot = [...this.chatMessages].reverse().find(m => m.type === 'bot');
 
-    const userMsg = { type: 'user', message: this.input };
+    let userMsg: ChatMessage = { type: 'user', message: this.input };
+
+    if (lastBot.quesType === 'household') {
+      userMsg = { ...userMsg, replyType: 'household' };
+    }
+    if (lastBot.quesType === 'income') {
+      userMsg = { ...userMsg, replyType: 'income' };
+    }
     this.chatMessages = [...this.chatMessages, userMsg];
 
     if (this.input.toLowerCase().includes('dont know') || this.input.toLowerCase().includes("don't know")) {
@@ -103,14 +119,16 @@ export class ChatScreen {
         messages: this.chatMessages,
       });
       this.input = '';
+      this.studentDebt = '';
+      this.creditDebt = '';
+      this.otherDebt = '';
       return;
     }
 
     if (lastBot?.quesType === 'income') {
       const raw = this.input.trim();
-      const num = Number(raw); // convert string → number
+      const num = Number(raw);
 
-      // VALID VALUES: 1, 2, 3, 4
       const isValid = [1, 2, 3, 4].includes(num);
 
       if (!isValid) {
@@ -130,6 +148,9 @@ export class ChatScreen {
         });
 
         this.input = '';
+        this.studentDebt = '';
+        this.creditDebt = '';
+        this.otherDebt = '';
         return;
       }
     }
@@ -153,6 +174,9 @@ export class ChatScreen {
       messages: this.chatMessages,
     });
     this.input = '';
+    this.studentDebt = '';
+    this.creditDebt = '';
+    this.otherDebt = '';
   }
 
   showMessageAndNext(id: string) {
@@ -189,11 +213,11 @@ export class ChatScreen {
     return false;
   }
 
-  handleInputSubmit(msg: string) {
+  handleInputSubmit(msg: string, reply: string) {
     console.log('mesg123', msg);
     if (!msg.trim()) return;
 
-    const userMsg = { type: 'user', message: msg };
+    const userMsg = { type: 'user', message: msg, replyType: reply };
     this.chatMessages = [...this.chatMessages, userMsg];
 
     if (msg.toLowerCase().includes('dont know') || msg.toLowerCase().includes("don't know")) {
@@ -282,12 +306,92 @@ export class ChatScreen {
         <div class="canvas">
           <div class="messages-wrap" ref={el => (this.messagesWrap = el)}>
             {this.chatMessages.map((m: any) => {
+              const isAgeMessage = m.replyType === 'age' && typeof m.message === 'string' && m.message.includes('Person');
+              const isIncomeMessage = m.replyType === 'income' && typeof m.message === 'string' && m.message.includes('Income Source');
+              const isDebt = m.replyType === 'payment' && typeof m.message === 'string';
+              let incomeItems = [];
+              if (isIncomeMessage) {
+                incomeItems = m.message.split('\n').map(line => {
+                  const [label, value] = line.split(':');
+                  return { label: label.trim(), value: value.trim() };
+                });
+              }
+              let ageItems = [];
+              if (isAgeMessage) {
+                ageItems = m.message.split('\n').map(line => {
+                  const [label, value] = line.split(':');
+                  return {
+                    label: label.trim(),
+                    value: value.trim(),
+                  };
+                });
+              }
+              let debtItem = [];
+              if (isDebt) {
+                debtItem = m.message.split('\n').map(line => {
+                  const [label, value] = line.split(':');
+                  return {
+                    label: label.trim(),
+                    value: value.trim(),
+                  };
+                });
+              }
               return (
                 <Fragment>
                   <div class={m.type === 'bot' ? 'msg-bot' : 'msg-user'}>
                     {m.type === 'bot' && <img class="avatar-bot" src="/assets/icon/avatar.svg" alt="bot" />}
                     <div class="bubble">
-                      <p>{m.message}</p>
+                      {isAgeMessage ? (
+                        <div class="age-container">
+                          {ageItems.map(item => (
+                            <div class="age-pill">
+                              <span class="label">{item.label} :</span>
+                              <span class="value">{item.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {/* INCOME UI */}
+                      {isIncomeMessage ? (
+                        <div class="age-container">
+                          {' '}
+                          {/* same style */}
+                          {incomeItems.map(item => (
+                            <div class="age-pill">
+                              <span class="label">{item.label} :</span>
+                              <span class="value">{item.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {isDebt ? (
+                        <div class="age-container">
+                          {' '}
+                          {/* same style */}
+                          {debtItem.map(item => (
+                            <div class="age-pill">
+                              <span class="label">{item.label} :</span>
+                              <span class="value">{item.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {((m.replyType === 'insurance' && m.type === 'user') || (m.replyType === 'vehicle' && m.type === 'user') || (m.replyType === 'rent' && m.type === 'user')) &&
+                        !isAgeMessage &&
+                        !isIncomeMessage &&
+                        !isDebt && <p>$ {m.message}</p>}
+                      {/* NORMAL MESSAGE */}
+                      {!isAgeMessage &&
+                        !isIncomeMessage &&
+                        !isDebt &&
+                        !(
+                          (m.replyType === 'insurance' && m.type === 'user') ||
+                          (m.replyType === 'vehicle' && m.type === 'user') ||
+                          (m.replyType === 'rent' && m.type === 'user')
+                        ) && <p>{m.message}</p>}
                       {m.options && (
                         <div class="options-row">
                           {m.options.map((opt: any) => (
@@ -303,7 +407,7 @@ export class ChatScreen {
                             type={this.inputType === 'text' ? 'text' : 'number'}
                             placeholder={this.inputType === 'text' ? 'Enter Area' : 'Enter Zip'}
                             onInput={(e: any) => this.validateZip(e)}
-                            onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value)}
+                            onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value, 'zip')}
                           />
                           <button class="option" onClick={() => this.handleOptionType(this.inputType === 'text' ? 'number' : 'text')}>{`Type ${
                             this.inputType === 'text' ? 'Zip' : 'Area'
@@ -324,7 +428,7 @@ export class ChatScreen {
                             onClick={(e: any) => {
                               const wrapper = (e.target as HTMLElement).closest('.input-bubble');
                               const inputEl = wrapper.querySelector('input') as HTMLInputElement;
-                              this.handleInputSubmit(inputEl.value);
+                              this.handleInputSubmit(inputEl.value, m.replyType);
                             }}
                           >
                             Continue
@@ -356,7 +460,7 @@ export class ChatScreen {
                             class={this.dynamicValues.some(v => !v || v.trim() === '') ? 'disabled-btn' : ''}
                             onClick={() => {
                               const allAges = this.dynamicValues.map((age, index) => `Person ${index + 1}: ${age}`).join('\n');
-                              this.handleInputSubmit(allAges);
+                              this.handleInputSubmit(allAges, m.replyType);
                             }}
                           >
                             Continue
@@ -377,14 +481,60 @@ export class ChatScreen {
                         </div>
                       )}
 
+                      {m.input && m.inputType === 'debt' && (
+                        <div class="input-bubble debt-bubble">
+                          {/* STUDENT DEBT */}
+                          <p class="input-label">Student Debt</p>
+                          <input
+                            type="number"
+                            placeholder="Enter Student Debt"
+                            value={this.studentDebt}
+                            onInput={(e: any) => (this.studentDebt = e.target.value)}
+                            // onKeyDown={(e: any) => e.key === 'Enter' && this.submitDebtInputs()}
+                          />
+
+                          {/* CREDIT CARD DEBT */}
+                          <p class="input-label">Credit Card Debt</p>
+
+                          <input
+                            type="number"
+                            placeholder="Enter Credit Card Debt"
+                            value={this.creditDebt}
+                            onInput={(e: any) => (this.creditDebt = e.target.value)}
+                            // onKeyDown={(e: any) => e.key === 'Enter' && this.submitDebtInputs()}
+                          />
+
+                          {/* OTHER DEBT */}
+                          <p class="input-label">Other Debt</p>
+                          <input
+                            type="number"
+                            placeholder="Enter Other Debt"
+                            value={this.otherDebt}
+                            onInput={(e: any) => (this.otherDebt = e.target.value)}
+                            // onKeyDown={(e: any) => e.key === 'Enter' && this.submitDebtInputs()}
+                          />
+
+                          <button
+                            disabled={!this.studentDebt || !this.creditDebt || !this.otherDebt}
+                            class={!this.studentDebt || !this.creditDebt || !this.otherDebt ? 'disabled-btn' : ''}
+                            onClick={() => {
+                              const value = `Student Debt: $ ${this.studentDebt} \n Credit Debt: $ ${this.creditDebt} \n Other Debt: $ ${this.otherDebt}`;
+                              this.handleInputSubmit(value, m.replyType);
+                            }}
+                          >
+                            Continue
+                          </button>
+                        </div>
+                      )}
+
                       {m.input && m.inputType === 'rent' && (
                         <div class="input-bubble">
-                          <input type="number" placeholder={m.placeholder} onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value)} />
+                          <input type="number" placeholder={m.placeholder} onKeyDown={(e: any) => e.key === 'Enter' && this.handleInputSubmit(e.target.value, m.replyType)} />
                           <button
                             onClick={(e: any) => {
                               const wrapper = (e.target as HTMLElement).closest('.input-bubble');
                               const inputEl = wrapper.querySelector('input') as HTMLInputElement;
-                              this.handleInputSubmit(inputEl.value);
+                              this.handleInputSubmit(inputEl.value, m.replyType);
                             }}
                           >
                             Continue
@@ -467,7 +617,7 @@ export class ChatScreen {
                               //     .join('\n');
                               const output = this.incomeSources.map((src, i) => `Income Source ${i + 1}: ${src.amount}`).join('\n');
 
-                              this.handleInputSubmit(output);
+                              this.handleInputSubmit(output, m.replyType);
                             }}
                           >
                             Continue

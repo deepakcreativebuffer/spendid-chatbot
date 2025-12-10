@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'spendid-results',
@@ -6,11 +6,116 @@ import { Component, Event, EventEmitter, h } from '@stencil/core';
   shadow: false,
 })
 export class SpendidResults {
+  @Prop() thread: any;
   @Event() closeResult: EventEmitter<boolean>;
+  score: number;
+  peerScore: number;
+  youSaving: any;
+  peerSaving: any;
+  youDonut: any;
+  peerDonut: any;
+  breakdown: any;
+
   handleBack() {
     this.closeResult.emit(false);
   }
+
+  // Helper to map zip code to dummy data
+  getResultsByZip(zip: string) {
+    const dataMap: Record<string, any> = {
+      //Good Score
+      '35210': {
+        score: 125.7,
+        peerScore: 106.6,
+        youSaving: 6537,
+        peerSaving: 3724,
+        youDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        peerDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        breakdown: { score: 90, needs: 45, wants: 35, savings: 20 },
+      },
+      // Bad Score
+      '14001': {
+        score: 109.5,
+        peerScore: 75.2,
+        youSaving: 1200,
+        peerSaving: 1000,
+        youDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        peerDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        breakdown: { score: 50, needs: 55, wants: 30, savings: 15 },
+      },
+      // Average
+      '15502': {
+        score: 70,
+        peerScore: 68,
+        youSaving: 1200,
+        peerSaving: 1000,
+        youDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        peerDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Food', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        breakdown: { score: 65, needs: 50, wants: 30, savings: 20 },
+      },
+    };
+
+    // Default if zip code is not found
+    return (
+      dataMap[zip] || {
+        score: 65,
+        peerScore: 65,
+        youSaving: 1200,
+        peerSaving: 1000,
+        youDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        peerDonut: [
+          { category: 'Needs', monthly: 1200 },
+          { category: 'Wants', monthly: 600 },
+          { category: 'Finacial Goals', monthly: 300 },
+        ],
+        breakdown: { score: 60, needs: 50, wants: 30, savings: 20 },
+      }
+    );
+  }
+
+  componentWillLoad() {
+    const zip = this.thread?.messages?.find(msg => msg.type === 'user' && msg.replyType === 'zip');
+    console.log('zip', zip);
+    const results = this.getResultsByZip(zip?.message);
+    console.log('results123', results);
+    this.score = results.score;
+    this.peerScore = results.peerScore;
+    this.youSaving = results.youSaving;
+    this.peerSaving = results.peerSaving;
+    this.youDonut = results.youDonut;
+    this.peerDonut = results.peerDonut;
+    this.breakdown = results.breakdown;
+  }
   render() {
+    console.log('thred', this.thread);
     return (
       <div class="spendid-container">
         <div class="header-row">
@@ -23,63 +128,42 @@ export class SpendidResults {
         <section class="card score-card">
           <div class="card-left">
             <div class="card-title">Budget Health Score</div>
-
-            <spendid-gauge value={79.6} max={100}></spendid-gauge>
-          </div>
-
-          <div class="card-right">
-            <div class="score-number">You Score</div>
-            <div class="big">99.6</div>
-            <div class="peer">Peer Average</div>
-            <div class="peer-num">72.0</div>
+            <budget-score-card score={this.score} peerScore={this.peerScore} grade="A+"></budget-score-card>
           </div>
         </section>
 
         <section class="card savings-card">
           <div class="card-title">Monthly Savings Ability</div>
 
-          <monthly-savings
-            data={[
-              { label: 'Savings 1', value: 13000, color: '#4B8E7D' },
-              { label: 'Savings 2', value: 8000, color: '#88E6F9' },
-            ]}
-          ></monthly-savings>
+          <saving-ability-card amount={`$${this.youSaving}`} tag="You"></saving-ability-card>
 
-          <div class="score-row">
-            <div class="score-pill">
-              <div class="pill-title">You Score</div>
-              <div class="pill-value">99.6</div>
-            </div>
-            <div class="score-pill peer-pill">
-              <div class="pill-title">Peer Average</div>
-              <div class="pill-value">72.0</div>
-            </div>
-          </div>
+          <br />
+
+          <saving-ability-card amount={`$${this.peerSaving}`} tag="Peers"></saving-ability-card>
         </section>
 
         <section class="card breakdown-card">
           <div class="card-title">Spending Breakdown (50–30–20)</div>
-
+          <div>
+            <div class="pie-chart-you">
+              <pie-chart data={this.youDonut} type="$" dark={false}></pie-chart>
+              <div class="card-title">You</div>
+            </div>
+            <div class="pie-chart-you">
+              <pie-chart data={this.peerDonut} type="$" dark={false}></pie-chart>
+              <div class="card-title">Yours Peer</div>
+            </div>
+          </div>
           <div class="breakdown-content">
-            {/* <div class="donut">
-              <div class="donut-ring">
-                <div class="donut-text">
-                  99.6
-                  <div class="sub">/100</div>
-                </div>
-              </div>
-            </div> */}
-
-            <circular-progress value={79.6} size={150} strokeWidth={12}></circular-progress>
             <div class="legend">
               <div class="legend-row">
-                <span class="dot gold"></span>Needs <strong>10%</strong>
+                <span class="dot gold"></span>Needs <strong>{this.breakdown.needs}%</strong>
               </div>
               <div class="legend-row">
-                <span class="dot blue"></span>Wants <strong>28%</strong>
+                <span class="dot blue"></span>Wants <strong>{this.breakdown.wants}%</strong>
               </div>
               <div class="legend-row">
-                <span class="dot green"></span>Savings <strong>72%</strong>
+                <span class="dot green"></span>Savings <strong>{this.breakdown.savings}%</strong>
               </div>
             </div>
           </div>
