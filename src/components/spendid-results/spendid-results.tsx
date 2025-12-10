@@ -49,7 +49,7 @@ export class SpendidResults {
         peerScore: 16.7,
         youSaving: -1208,
         peerSaving: -1951,
-        grade: 'C+',
+        grade: '',
         youDonut: [
           { category: 'Needs', monthly: 1995, percentage: 64.8 },
           { category: 'Wants', monthly: 785, percentage: 25.5 },
@@ -63,21 +63,21 @@ export class SpendidResults {
         breakdown: { score: 50, needs: 55, wants: 30, savings: 15 },
       },
       // Average
-      '15502': {
-        score: 70,
-        peerScore: 68,
-        youSaving: 1200,
-        peerSaving: 1000,
-        grade: 'D+',
+      '13045': {
+        score: 68.8,
+        peerScore: 81.5,
+        youSaving: -574,
+        peerSaving: 76,
+        grade: '',
         youDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Wants', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 3750, percentage: 73.4 },
+          { category: 'Food', monthly: 1359, percentage: 26.6 },
+          { category: 'Finacial Goals', monthly: 1, percentage: 1 },
         ],
         peerDonut: [
-          { category: 'Needs', monthly: 1200, percentage: 50 },
-          { category: 'Food', monthly: 600, percentage: 50 },
-          { category: 'Finacial Goals', monthly: 300, percentage: 50 },
+          { category: 'Needs', monthly: 3219, percentage: 63 },
+          { category: 'Wants', monthly: 1522, percentage: 29.8 },
+          { category: 'Finacial Goals', monthly: 367, percentage: 7.2 },
         ],
         breakdown: { score: 65, needs: 50, wants: 30, savings: 20 },
       },
