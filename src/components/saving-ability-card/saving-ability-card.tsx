@@ -13,7 +13,13 @@ export class SavingAbilityCard {
   render() {
     const numericAmount = parseFloat(this.amount.replace(/[^0-9.-]/g, ''));
 
-    const scorecardClass = numericAmount < 0 ? 'scorecard neg-scorecard ' : 'scorecard';
+    let scorecardClass = 'scorecard';
+
+    if (numericAmount < 0) {
+      scorecardClass += ' neg-scorecard';
+    } else if (numericAmount < 80) {
+      scorecardClass += ' orange-scorecard';
+    }
     return (
       <div class={scorecardClass}>
         <div class="title">{this.label}</div>

@@ -154,7 +154,7 @@ export class SpendidResults {
             </div>
             <div class="pie-chart-you">
               <pie-chart data={this.peerDonut} type="$" dark={false}></pie-chart>
-              <div class="card-title">Yours Peer</div>
+              <div class="card-title">Yours Peers</div>
             </div>
           </div>
           <div class="breakdown-content">
