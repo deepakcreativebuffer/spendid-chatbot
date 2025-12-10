@@ -134,17 +134,15 @@ export class SpendidResults {
 
         <section class="card savings-card">
           <div class="card-title">Monthly Savings Ability</div>
-
+          <div class="card-mthly-saving">
           <saving-ability-card amount={`$${this.youSaving}`} tag="You"></saving-ability-card>
-
-          <br />
-
           <saving-ability-card amount={`$${this.peerSaving}`} tag="Peers"></saving-ability-card>
+          </div>
         </section>
 
         <section class="card breakdown-card">
           <div class="card-title">Spending Breakdown (50–30–20)</div>
-          <div>
+          <div class="breakdown-pie">
             <div class="pie-chart-you">
               <pie-chart data={this.youDonut} type="$" dark={false}></pie-chart>
               <div class="card-title">You</div>

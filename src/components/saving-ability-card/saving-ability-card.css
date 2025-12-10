@@ -12,22 +12,27 @@
 
 .title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   opacity: 0.9;
 }
-
+.card-mthly-saving{
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* 2 Columns */
+  gap: 20px;   
+}
+@media (max-width: 768px) {
+  .card-mthly-saving {
+    grid-template-columns: 1fr; /* single column */
+  }
+}
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
 
-.amount {
-  font-size: 38px;
-  font-weight: 700;
-}
-
-.tag {
-  font-size: 22px;
+.amount, .tag {
+  font-size: 24px;
   font-weight: 700;
 }

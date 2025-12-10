@@ -12,11 +12,10 @@ export class BudgetScoreCard {
 
   render() {
     return (
-      <div class="card">
-        <div class="title-row">
+      <div class="budget-health-score-card">
+        {/* <div class="title-row">
           <span class="title">Your Budget Health Score</span>
-          {/* <span class="icon">?</span> */}
-        </div>
+        </div> */}
 
         <div class="content-row">
           <div class="left">
